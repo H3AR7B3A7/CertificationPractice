@@ -1,6 +1,12 @@
-package be.dog.d.steven;
+package be.dog.d.steven.chapter2;
 
-public class DefaultInitialization {
+public class JavaBuildingBlocks{
+    public static void main(String[] args) {
+
+    }
+}
+
+class DefaultInitialization {
     private static int a; // Class variable: Defaults to 0
     private int b; // Instance variable: Defaults to 0
     private Object obj; // Defaults to null

@@ -1,9 +1,8 @@
-package be.dog.d.steven;
+package be.dog.d.steven.chapter5;
 
 import java.util.Arrays;
 
-public class Main {
-
+public class CoreJavaAPIs {
     public static void main(String[] args) {
 
         // STRINGS
@@ -55,5 +54,7 @@ public class Main {
         String[] nine = null; // null is always smaller, always 1/-1
         String[] ten = {"b","c"};
         System.out.println(Arrays.compare(nine,ten)); // -1
+
+
     }
 }
