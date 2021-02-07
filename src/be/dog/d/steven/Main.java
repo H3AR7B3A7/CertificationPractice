@@ -10,28 +10,27 @@ public class Main {
 
         String str1 = "abcde";
         str1 = str1.replace("bc","fg");
-        System.out.println(str1);
+        System.out.println(str1); // afgde
 
         StringBuilder str2 = new StringBuilder("abcde");
         str2.replace(1,3, "fg");
-        System.out.println(str2);
+        System.out.println(str2); // afgde
 
         String a = "Hello world";
         String b = "Hello" + " world";
-        System.out.println(a == b);
+        System.out.println(a == b); // true
 
         String c = "rat" + 1;
         String d = "r"+"a"+"t"+"1";
-        System.out.println(c == d);
+        System.out.println(c == d); // true
 
         String e = "Hello";
         e += " world";
-        System.out.println(e);
-        System.out.println(e == a);
+        System.out.println(e == a); // false
 
         String f = "hello ".trim();
         String g = "hello";
-        System.out.println(f == g);
+        System.out.println(f == g); // false
 
         // COMPARING ARRAYS
 
