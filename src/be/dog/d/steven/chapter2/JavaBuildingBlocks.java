@@ -2,7 +2,31 @@ package be.dog.d.steven.chapter2;
 
 public class JavaBuildingBlocks{
     public static void main(String[] args) {
+        int i = 017; // Octal
+        System.out.println(i); // 15
 
+        int j = 0xF; // Hexadecimal
+        System.out.println(j); // 15
+
+        int k = 0b1111; // Binary
+        System.out.println(k); // 15
+    }
+}
+
+class OrderOfInitialization {
+    private String name = "Fluffy"; // Initialized first
+    {
+        System.out.println("Initializing fields...");
+    }
+
+    public OrderOfInitialization() {
+        this.name = "Tiny"; // Initialized second
+        System.out.println("Constructing...");
+    }
+
+    public static void main(String[] args) {
+        OrderOfInitialization ooi = new OrderOfInitialization(); // Execution starts here
+        System.out.println(ooi.name); // Tiny
     }
 }
 
