@@ -68,9 +68,90 @@ Multiple files in multiple packages
 
 ## Chapter 2: Java Building Blocks
 
+Primitives:
+- boolean
+- byte (8-bit)
+- short (16-bit)
+- int (32-bit)
+- long (64-bit)
+- float (32-bit)
+- double (64-bit)
+- char (16-bit)
+
+Literals can have '_' to make reading big numbers more easy, but not:
+- At the beginning
+- At the end
+- Near a comma
+
+Identifiers:
+- Start with a letter, $ or _
+- Can hold numbers but not start with them
+- Can't be a single '_'
+- Can't be a reserved word
+
+Var can only be used with single local variables:
+- Not with instance~ or class variables
+- Not in constructor or method parameters
+- Not in multiple variable declarations
+
+Scopes:
+- Local variables: in scope from declaration to end of block, also in nested blocks
+- Instance variables: in scope from declaration until the object is eligible for garbage collection
+- Class variable: in scope from declaration until the program ends
+
+An object is eligible for garbage collection:
+- when it no longer has any references
+- when all references have gone out of scope
+
+Garbage collection:
+- Can delete objects from the heap to release memory
+- Can only be suggested (System.gc())
+- Might never run
+
+Finalize():
+- Can run zero or one time(s)
+- Was deprecated as of Java 9
+
+
 ## Chapter 3: Operators
+
+Operator precedence:
+- Post-unary
+- Pre-unary
+- Unary
+- Multiplication, division & modulus
+- Addition & subtraction
+- Shift
+- Relational
+- Equal~ & not equal to
+- Logical
+- Short-circuit logical
+- Ternary
+- Assignment
+
+Primitive numeric promotion in arithmetic operations:
+- Will always promote primitives smaller than integers to an int
+- Will promote the smallest of 2 operands to the larger one
+- Will promote an integral data type to its floating-point equivalent when one of the operands is a floating-point
+
+When assigning values:
+- Casting to a larger datatype is automatic
+- Casting to a smaller data type requires a cast, with possible loss of data
 
 ## Chapter 4: Making Decisions
 
+
+
 ## Chapter 5: Core Java APIs
+
+- String, StringBuilder & The String Pool
+- Array
+- List
+- Wrapper class, Autoboxing & Unboxing  
+- Set & Map  
+- Math API
+
+## Chapter 6: Lambda's and Functional Interfaces
+
+
 
