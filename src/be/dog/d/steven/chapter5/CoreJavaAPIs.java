@@ -1,9 +1,6 @@
 package be.dog.d.steven.chapter5;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CoreJavaAPIs {
     public static void main(String[] args) {
@@ -36,7 +33,7 @@ public class CoreJavaAPIs {
 
         // INITIALIZING ARRAYS
 
-        int[][] map, space[]; // map = 2D, space = 3D
+        int[][] chart, space[]; // map = 2D, space = 3D
 
         // SORTING, SEARCHING ARRAYS
 
@@ -90,6 +87,13 @@ public class CoreJavaAPIs {
         // SORTING ARRAYLIST
 
         Collections.sort(newList1);
+
+        // MAPS
+
+        Map<Integer,String> map = new HashMap<>();
+        map.put(1,"hello");
+        System.out.println("keyset:" + map.keySet());
+        System.out.println("values" + map.values());
 
         // Math API
 

@@ -1,13 +1,20 @@
 package be.dog.d.steven.chapter6;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class LambdasAndFunctionalInterfaces {
 
     static List<String> listOfBunnies;
+
+    static void populateListOfBunnies(){
+        listOfBunnies = new ArrayList<>();
+        listOfBunnies.add("Hopper");
+        listOfBunnies.add("Happy");
+        listOfBunnies.add("Long Ear");
+        listOfBunnies.add("Floppy");
+    }
 
     public static void main(String[] args) {
 
@@ -28,13 +35,24 @@ public class LambdasAndFunctionalInterfaces {
         populateListOfBunnies();
         listOfBunnies.sort((o1, o2) -> o1.compareTo(o2));
         System.out.println(listOfBunnies);
+
+    }
+}
+
+// Predicate
+class Panda {
+    int age;
+
+    public Panda(int age) {
+        this.age = age;
     }
 
-    static void populateListOfBunnies(){
-        listOfBunnies = new ArrayList<>();
-        listOfBunnies.add("Hopper");
-        listOfBunnies.add("Happy");
-        listOfBunnies.add("Long Ear");
-        listOfBunnies.add("Floppy");
+    public static void main(String[] args) {
+        Panda panda = new Panda(1);
+        check(panda, p -> p.age < 3);
+    }
+    private static void check(Panda p, Predicate<Panda> predicate) {
+        String result = predicate.test(p) ? "match" : "not match";
+        System.out.println(result);
     }
 }
