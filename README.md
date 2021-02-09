@@ -140,7 +140,45 @@ When assigning values:
 
 ## Chapter 4: Making Decisions
 
+**If-statements**:
+- Can have only one else statement each
+- Can be chained
 
+**Switch-statements**:
+- Can be of these data types:
+  - Integer & int
+  - Byte & byte
+  - Short & short
+  - Character & char
+  - String
+  - Enum
+  - Var
+- Case values should be:
+  - Compile-time constant values (literal, enum or final constant)
+  - Of the same data type as the switch value
+  
+**While-statements**:
+- Might never run if condition is not met
+
+**Do/while-statements**:
+- Always run at least once, even if condition is not met
+
+**For-loop**:
+- Optional
+  - Initialization statements
+  - Boolean expressions
+  - Update statements
+- Code block
+
+**Enhanced for-loop**:
+- Iterable collection or array
+- Single member data type and handle
+
+*Flow statements*:  
+break, continue & return
+
+*Labels*:  
+Optional in front of statements that allow flow to jump to or break from that statement
 
 ## Chapter 5: Core Java APIs
 
