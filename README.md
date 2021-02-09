@@ -193,5 +193,43 @@ Optional in front of statements that allow flow to jump to or break from that st
 
 ## Chapter 6: Lambda's and Functional Interfaces
 
+**Functional interfaces**:  
+*Simplified definition*: Functional intefaces have only one abstract method.
 
+- **Predicate**:  
+A function used to return a boolean value.
+
+      public interface Predicate {
+        boolean test(T t);
+      }
+
+- **Consumer**:  
+A function which takes in one argument and produces a result.
+However, it doesn't return any value.
+
+      public interface Consumer {
+        void accept(T t);
+      }
+
+- **Supplier**:  
+A function which does not take in any argument, but produces a value of type T.
+
+      public interface Supplier {
+        T get(); 
+      }
+
+- **Comparator**:  
+A function used to compare 2 objects
+
+      public interface Comparator(T o1, T o2) {
+        int compare(T o1, T o2)
+      }
+
+  Has many other static and default methods for writing complex comparators.
+
+Some API that take lambda's:
+
+- removeIf(): Takes a Predicate
+- sort(): Takes a Comparator
+- forEach(): Takes a Consumer
 
