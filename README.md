@@ -172,7 +172,7 @@ When assigning values:
   - Update statements
 - Code block
 
-**Enhanced for-loop**:
+**Enhanced For-loop**:
 - Iterable collection or array
 - Single member data type and handle
 
@@ -193,7 +193,7 @@ Optional in front of statements that allow flow to jump to or break from that st
 
 ## Chapter 6: Lambda's and Functional Interfaces
 
-**Functional interfaces**:  
+**Functional Interfaces**:  
 *Simplified definition*: Functional intefaces have only one abstract method.
 
 - **Predicate**:  
@@ -227,9 +227,72 @@ A function used to compare 2 objects
 
   Has many other static and default methods for writing complex comparators.
 
-Some API that take lambda's:
+**Lambda**:
+- Are only allowed to reference effectively final values
 
+Short notation:
+  
+      a -> a.System.out.println(a)
+
+Full notation:
+
+      (String a, String b) -> { return a.compareTo(b); }
+
+Some API that take lambda's:
 - removeIf(): Takes a Predicate
 - sort(): Takes a Comparator
 - forEach(): Takes a Consumer
+
+## Chapter 7: Methods and Encapsulation
+
+**Method Signature**:
+- Access modifier
+- Optional specifier
+- Return type
+- Method name
+- Parameter list
+- Optional exception list
+- Method body
+
+**Access Modifiers**:
+- Private
+- None (Package-private)
+- Protected
+- Public
+
+**Optional Specifiers**:
+- Static
+- Abstract
+- Final
+- Synchronized
+- Native
+- Scriptfp
+
+With **Method overloading** multiple methods can have the same name with different parameters.
+
+Java handles method parameters as **pass-by-value**, which means we can't reassign parameter values inside a method.
+However, we can call methods on them.
+
+## Chapter 8: Class Design
+
+Java only allows **single inheritance**. However, we can use multiple interface implementations,
+or inner classes that inherit from a parent to get around this 'limitation'.
+
+The **this** keyword helps us to reference an instance variable of the current instance.
+This is useful when a method or constructor param share the instance variable name.
+
+The **super** keyword helps us to refer to variables in the scope of a parent class.
+
+**Constructors**:
+- Do not have a return type
+- Match name with the name of the class
+- Can't have 'var' as params
+- Can be overloaded, like methods
+- Are called when creating a **new** object
+- Will be provided by the compiler, when we do not (*default constructor*)
+
+We can use **this()** to prevent code duplication when overloading constructors.
+
+
+
 
