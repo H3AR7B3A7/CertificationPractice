@@ -268,7 +268,9 @@ Some API that take lambda's:
 - Native
 - Scriptfp
 
-With **Method overloading** multiple methods can have the same name with different parameters.
+With **Method overloading**:
+- Multiple methods can have the same name with different parameters.
+- Type erasure will enforce type constraints only at compile time and discards the element type information at runtime.
 
 Java handles method parameters as **pass-by-value**, which means we can't reassign parameter values inside a method.
 However, we can call methods on them.
@@ -290,9 +292,40 @@ The **super** keyword helps us to refer to variables in the scope of a parent cl
 - Can be overloaded, like methods
 - Are called when creating a **new** object
 - Will be provided by the compiler, when we do not (*default constructor*)
+- Final instance fields must be initialized before the end of the constructor
+  - In the same line
+  - In an instance initializer block
+  - In the constructor itself
 
 We can use **this()** to prevent code duplication when overloading constructors.
+- The call to this() has to be first in the constructor
+- There can only be one
+- Calling on other constructors has to end in a constructor not calling this() at some point (no infinite loops)
 
+We can use **super()** to call parent constructors when inheriting.
+- The call to super() has to be first in the constructor
+- There can only be one
 
+When **overriding** a method:
+- It should have the same signature (if it doesn't, we are overloading or creating a new method)
+- It has to be at least as accessible as the method in the parent class
+- It should return the same type, or a subtype of the method in the parent class
+- It can not declare exceptions that are broader than or new those of the parents
 
+When overriding *generic* methods:
+- The collection type has to match (or else you are overloading, instead of overriding)
+- The generic type params have to match
 
+When **hiding** static methods:
+- It should have the same signature (if it doesn't, we are overloading or creating a new method)
+- It has to be at least as accessible as the method in the parent class
+- It should return the same type, or a subtype of the method in the parent class
+- It can not declare exceptions that are broader than or new those of the parents
+- Both methods should be static
+
+*Final methods can't be overridden nor hidden!*
+
+Because of **polymorphism** an object can be accessed using a reference of:
+- The same type as the object
+- A superclass of the object
+- An interface that the object implements
