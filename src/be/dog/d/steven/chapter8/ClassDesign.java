@@ -15,7 +15,7 @@ class Design {
 
 // INHERITANCE
 
-public class ClassDesign extends Design{
+public class ClassDesign extends Design {
     String scope = "Child Scope";
 
     // THIS KEYWORD
@@ -26,7 +26,7 @@ public class ClassDesign extends Design{
 
     // SUPER KEYWORD
 
-    String getScope(){
+    String getScope() {
         return super.scope + ": " + scope;
     }
 
@@ -44,6 +44,10 @@ public class ClassDesign extends Design{
         System.out.println(new ClassDesign().getScope());
 
         Rabbit.main(new String[]{});
+
+        Hippo.main(new String[]{});
+
+        Kangaroo.main(new String[]{});
     }
 }
 
@@ -53,7 +57,7 @@ class Rabbit {
     private final String color;
     private final int weight;
 
-    private Rabbit(String color, int weight){ // Private constructors prevent other classes from creating rabbits
+    private Rabbit(String color, int weight) { // Private constructors prevent other classes from creating rabbits
         this.color = color;
         this.weight = weight;
     }
@@ -65,5 +69,69 @@ class Rabbit {
     public static void main(String[] args) { // We can still create rabbits calling static methods in the class
         Rabbit r = new Rabbit(5);
         System.out.println(r.color + " rabbit, weight: " + r.weight);
+    }
+}
+
+// ORDER OF INITIALIZATION
+
+class Animal {
+    static {
+        System.out.println("Parent class initialized...");
+    }
+}
+
+class Hippo extends Animal {
+    static {
+        System.out.println("Child class initialized...");
+    }
+
+    {
+        System.out.println("Object gets instantiated...");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Main gets executed:");
+        new Hippo();
+        new Hippo();
+        new Hippo();
+    }
+}
+
+// OVERRIDING VS HIDING
+
+class Marsupial {
+    int age = 2;
+
+    public static boolean isBiped() {
+        return false;
+    }
+
+    public boolean isFighter() {
+        return false;
+    }
+}
+
+class Kangaroo extends Marsupial {
+    int age = 6;
+
+    public static boolean isBiped() {
+        return true;
+    }
+
+    @Override
+    public boolean isFighter() {
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Kangaroo joey = new Kangaroo();
+        Marsupial moey = joey;
+
+        System.out.println(joey.age); // 6 - Hidden
+        System.out.println(moey.age); // 2
+        System.out.println(joey.isBiped()); // True - Hidden
+        System.out.println(moey.isBiped()); // False
+        System.out.println(joey.isFighter()); // True - Overridden
+        System.out.println(moey.isFighter()); // True
     }
 }
