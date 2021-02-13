@@ -32,3 +32,15 @@ public class MethodsAndEncapsulation {
         original = "Other string";
     }
 }
+
+// FINAL AND ACCESS MODIFIERS
+
+class OrderOfModifiers {
+    public final void writeA() { // The final modifier can be placed before or after the access modifier
+        System.out.println("A");
+    }
+
+    final public void writeB() {
+        System.out.println("B");
+    }
+}

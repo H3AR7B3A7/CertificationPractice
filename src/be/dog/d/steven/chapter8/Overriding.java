@@ -4,60 +4,69 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Organism {
-    void makeNoise(){
+    void makeNoise() {
         System.out.println("???");
     }
-    static void makeNoise2(){
+
+    static void makeNoise2() {
         System.out.println("???");
     }
 }
 
-class Eukaryote extends Organism{
-    void makeNoise(){
+class Eukaryote extends Organism {
+    void makeNoise() {
         System.out.println("Eu?");
     }
-    static void makeNoise2(){
+
+    static void makeNoise2() {
         System.out.println("Eu?");
     }
 }
 
 class Metazoan extends Eukaryote {
-    void makeNoise(){
+    void makeNoise() {
         System.out.println("Meu?");
     }
-    static void makeNoise2(){
+
+    static void makeNoise2() {
         System.out.println("Meu?");
     }
 }
 
 class Vertebrate extends Metazoan {
-    void makeNoise(){
+    void makeNoise() {
         System.out.println("Verrr?");
     }
-    static void makeNoise2(){
+
+    static void makeNoise2() {
         System.out.println("Verrr?");
     }
-    List<String> returnType(){
+
+    List<String> returnType() {
         return List.of("vertebrate");
     }
-    static List<String> returnType2(){
+
+    static List<String> returnType2() {
         return List.of("vertebrate");
     }
 }
 
 class Tetrapod extends Vertebrate {
-    void makeNoise(){
+    void makeNoise() {
         System.out.println("Clap clap");
     }
-    static void makeNoise2(){
+
+    static void makeNoise2() {
         System.out.println("Clap clap");
     }
-    ArrayList<String> returnType(){
+
+    ArrayList<String> returnType() {
         ArrayList<String> a = new ArrayList<>();
         a.add("tetrapod");
         return a;
     }
-    static ArrayList<String> returnType2(){
+
+    static ArrayList<String> returnType2() {
         ArrayList<String> a = new ArrayList<>();
         a.add("tetrapod");
         return a;

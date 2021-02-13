@@ -8,7 +8,7 @@ public class LambdasAndFunctionalInterfaces {
 
     static List<String> listOfBunnies;
 
-    static void populateListOfBunnies(){
+    static void populateListOfBunnies() {
         listOfBunnies = new ArrayList<>();
         listOfBunnies.add("Hopper");
         listOfBunnies.add("Happy");
@@ -51,6 +51,7 @@ class Panda {
         Panda panda = new Panda(1);
         check(panda, p -> p.age < 3);
     }
+
     private static void check(Panda p, Predicate<Panda> predicate) {
         String result = predicate.test(p) ? "match" : "not match";
         System.out.println(result);

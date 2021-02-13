@@ -12,16 +12,19 @@ class WelcomeToJava { // Only one public class, if present it always uses file n
         String arg = args[0]; // Using command line arguments
     }
 
-    public void read(){ }
+    public void read() {
+    }
 
     private static String c;
     private String d;
 
-    public void write(){ }
+    public void write() {
+    }
 }
 
 /**
  * Javadoc
+ *
  * @author steven.dhondt@kenze.be
  */
 class anotherClass {

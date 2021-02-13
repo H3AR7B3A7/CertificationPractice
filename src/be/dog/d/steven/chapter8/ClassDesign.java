@@ -146,9 +146,9 @@ class Bird {
     }
 }
 
-class Parrot extends Bird{
+class Parrot extends Bird {
     public Parrot() {
-    super(10); // Mandatory because bird doesn't have NoArgument constructor!
+        super(10); // Mandatory because bird doesn't have NoArgument constructor!
     }
 }
 
@@ -157,11 +157,11 @@ class Parrot extends Bird{
 class Whale {
     private int weight;
 
-    public Whale(int weight){
+    public Whale(int weight) {
         this.weight = weight;
     }
 
-    public Whale(String name){
+    public Whale(String name) {
         this(100);
     }
 }

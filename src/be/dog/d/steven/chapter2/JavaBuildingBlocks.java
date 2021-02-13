@@ -1,6 +1,6 @@
 package be.dog.d.steven.chapter2;
 
-public class JavaBuildingBlocks{
+public class JavaBuildingBlocks {
     public static void main(String[] args) {
         int i = 017; // Octal
         System.out.println(i); // 15
@@ -15,6 +15,7 @@ public class JavaBuildingBlocks{
 
 class OrderOfInitialization {
     private String name = "Fluffy"; // Initialized first
+
     {
         System.out.println("Initializing fields...");
     }
@@ -39,24 +40,15 @@ class DefaultInitialization {
     }
 
     public static void main(String[] args) {
-        System.out.println("class:"+a);
+        System.out.println("class:" + a);
         DefaultInitialization test = new DefaultInitialization();
-        System.out.println("instance:"+test.b);
-        System.out.println("object:"+test.obj);
+        System.out.println("instance:" + test.b);
+        System.out.println("object:" + test.obj);
         test.write();
     }
 
-    public void write(){
+    public void write() {
         int c = 0; // Local variable: Needs to be initialized
-        System.out.println("local:"+c);
-    }
-}
-
-class OrderOfModifiers {
-    public final void writeA(){ // The final modifier can be placed before or after the access modifier
-        System.out.println("A");
-    }
-    final public void writeB(){
-        System.out.println("B");
+        System.out.println("local:" + c);
     }
 }

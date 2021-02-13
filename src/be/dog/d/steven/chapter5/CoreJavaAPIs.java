@@ -8,11 +8,11 @@ public class CoreJavaAPIs {
         // STRINGS
 
         String str1 = "abcde";
-        str1 = str1.replace("bc","fg");
+        str1 = str1.replace("bc", "fg");
         System.out.println(str1); // afgde
 
         StringBuilder str2 = new StringBuilder("abcde");
-        str2.replace(1,3, "fg");
+        str2.replace(1, 3, "fg");
         System.out.println(str2); // afgde
 
         String a = "Hello world";
@@ -20,7 +20,7 @@ public class CoreJavaAPIs {
         System.out.println(a == b); // true
 
         String c = "rat" + 1;
-        String d = "r"+"a"+"t"+"1";
+        String d = "r" + "a" + "t" + "1";
         System.out.println(c == d); // true
 
         String e = "Hello";
@@ -37,34 +37,34 @@ public class CoreJavaAPIs {
 
         // SORTING, SEARCHING ARRAYS
 
-        int[] example = new int[]{2,3,1};
+        int[] example = new int[]{2, 3, 1};
         Arrays.sort(example);
         // Returns index of a match or negates the position to be inserted and subtracts 1
         Arrays.binarySearch(example, 2); // Has to be sorted first, or unpredictable.
 
         // COMPARING ARRAYS
 
-        int[] one = {1,2};
-        int[] two = {1,2,3,4,5}; // negative value because second param has more elements
-        System.out.println(Arrays.compare(one,two)); // -3
+        int[] one = {1, 2};
+        int[] two = {1, 2, 3, 4, 5}; // negative value because second param has more elements
+        System.out.println(Arrays.compare(one, two)); // -3
 
-        int[] three = {2,2}; // first different index has precedence over number of elements
-        int[] four = {1,2,3,4,5};
-        System.out.println(Arrays.compare(three,four)); // +1
+        int[] three = {2, 2}; // first different index has precedence over number of elements
+        int[] four = {1, 2, 3, 4, 5};
+        System.out.println(Arrays.compare(three, four)); // +1
 
         char[] five = {'a'}; // 'a' is smaller than 'b'
         char[] six = {'b'}; // 'b' is smaller than 'a'
-        System.out.println(Arrays.compare(five,six)); // -1
+        System.out.println(Arrays.compare(five, six)); // -1
 
         char[] seven = {'a'}; // Lowercase is bigger
         char[] eight = {'A'}; // Uppercase is smaller
-        System.out.println(Arrays.compare(seven,eight)); // 32
-        System.out.println((int)'a'); // 97
-        System.out.println((int)'A'); // 65
+        System.out.println(Arrays.compare(seven, eight)); // 32
+        System.out.println((int) 'a'); // 97
+        System.out.println((int) 'A'); // 65
 
         String[] nine = null; // null is always smaller, always 1/-1
-        String[] ten = {"b","c"};
-        System.out.println(Arrays.compare(nine,ten)); // -1
+        String[] ten = {"b", "c"};
+        System.out.println(Arrays.compare(nine, ten)); // -1
 
         // CONVERTING ARRAY <> LIST
 
@@ -90,19 +90,19 @@ public class CoreJavaAPIs {
 
         // MAPS
 
-        Map<Integer,String> map = new HashMap<>();
-        map.put(1,"hello");
+        Map<Integer, String> map = new HashMap<>();
+        map.put(1, "hello");
         System.out.println("keyset:" + map.keySet());
         System.out.println("values" + map.values());
 
         // Math API
 
-        int min = Math.min(1,2);
-        int max = Math.max(1,2);
+        int min = Math.min(1, 2);
+        int max = Math.max(1, 2);
         int round1 = Math.round(1.6f);
         long round2 = Math.round(1.6);
         double floor = Math.floor(1.6);
-        double cubed = Math.pow(2,3);
+        double cubed = Math.pow(2, 3);
         double random = Math.random();
 
     }
