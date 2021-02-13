@@ -66,9 +66,9 @@ interface canDive {  // Also abstract
 }
 
 interface canFloat {
-    default Boolean isFloater(){ // Default methods can have a body | They do not HAVE TO be overridden
+    default Boolean isFloater() { // Default methods can have a body | They do not HAVE TO be overridden
         return true;
-    };
+    }
 }
 
 interface canSwim extends canDive, canFloat { // Can extend multiple interfaces
@@ -82,7 +82,7 @@ class Duck implements canFly, canSwim {
     }
 
     @Override
-    public Float getSpeed() {
+    public Float getSpeed() { // Is assumed public in the interface, thus has to be public in implementation (Overriding rules!)
         return MAX_SPEED;
     }
 
@@ -101,3 +101,51 @@ class Duck implements canFly, canSwim {
         return true;
     }
 }
+
+// DUPLICATE METHODS
+
+interface Circle {
+    String getName();
+
+    double getSurfaceArea(int radius);
+
+    String getColor();
+}
+
+interface Rectangle {
+    // No conflict
+    String getName();
+
+    // Overload
+    double getSurfaceArea(int width, int height);
+
+    // Overridden because String and CharSequence are covariant
+    CharSequence getColor();
+}
+
+class CircleOrRectangle implements Circle, Rectangle {
+    @Override
+    public String getName() {
+        return "Rectircle";
+    }
+
+    @Override
+    public double getSurfaceArea(int radius) {
+        return Math.pow(radius, 2) * Math.PI;
+    }
+
+    @Override
+    public double getSurfaceArea(int width, int height) {
+        return width * height;
+    }
+
+    @Override
+    public String getColor() {
+        return "Red";
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new CircleOrRectangle().getSurfaceArea(3));
+    }
+}
+
