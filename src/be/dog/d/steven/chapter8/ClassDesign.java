@@ -135,3 +135,33 @@ class Kangaroo extends Marsupial {
         System.out.println(moey.isFighter()); // True
     }
 }
+
+// SUPER()
+
+class Bird {
+    int feathers;
+
+    public Bird(int feathers) {
+        this.feathers = feathers;
+    }
+}
+
+class Parrot extends Bird{
+    public Parrot() {
+    super(10); // Mandatory because bird doesn't have NoArgument constructor!
+    }
+}
+
+// THIS()
+
+class Whale {
+    private int weight;
+
+    public Whale(int weight){
+        this.weight = weight;
+    }
+
+    public Whale(String name){
+        this(100);
+    }
+}
