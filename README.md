@@ -333,7 +333,25 @@ Because of **polymorphism** an object can be accessed using a reference of:
 
 ## Chapter 9: Advanced Class Design
 
-**Abstract** class
-**Abstract** method
+**Abstract classes**: 
+- Do not have to contain abstract methods
+- Can not be instantiated
+- Can hold all members a regular class can (variables, constructor, ...)
+- Can not be final
+- Can not be private or protected
 
-Implementing an abstract method = overriding
+**Abstract methods**: 
+- Can only exist in abstract classes or interfaces
+- Can not be more accessible than their concrete implementations (*Overriding rules apply!)
+- Because it prevents the ability to be overridden:
+  - They can not be final
+  - They can not be private
+  - They can not be static
+
+**Implementing an abstract method = overriding.*
+
+**Concrete classes**  
+The first concrete class to inherit from an abstract class:
+- Must implement all inherited abstract methods from abstract classes
+- Must implement all abstract methods from inherited interfaces
+
