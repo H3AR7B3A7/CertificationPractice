@@ -1,4 +1,4 @@
-# Java Certification: Exercises & Examples
+# Java Certification: Documentation, Exercises & Examples
 
 Practicing Java oddities and outliers for Oracle Certification.
 
