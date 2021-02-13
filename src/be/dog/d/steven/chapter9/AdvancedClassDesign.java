@@ -3,6 +3,11 @@ package be.dog.d.steven.chapter9;
 public class AdvancedClassDesign {
     public static void main(String[] args) {
 
+        Eukaryote.main(new String[]{});
+
+        CircleOrRectangle.main(new String[]{});
+
+        Zoo.main(new String[]{});
     }
 }
 
@@ -149,3 +154,33 @@ class CircleOrRectangle implements Circle, Rectangle {
     }
 }
 
+// MEMBER INNER CLASS
+
+class Zoo {
+    private interface Paper { // Inner interface
+        String getId();
+    }
+
+    public class Ticket implements Paper { // Inner class
+        private final String serialNumber;
+
+        public Ticket(String serialNumber) {
+            this.serialNumber = serialNumber;
+        }
+
+        @Override
+        public String getId() {
+            return serialNumber;
+        }
+    }
+
+    public Ticket sellTicket(String serialNumber) {
+        return new Ticket(serialNumber);
+    }
+
+    public static void main(String[] args) {
+        Zoo zoo = new Zoo();
+        Ticket ticket = zoo.sellTicket("ab123");
+        System.out.println("Ticket with id: " + ticket.getId() + " was sold.");
+    }
+}
