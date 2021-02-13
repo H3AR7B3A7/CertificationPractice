@@ -329,3 +329,11 @@ Because of **polymorphism** an object can be accessed using a reference of:
 - The same type as the object
 - A superclass of the object
 - An interface that the object implements
+
+
+## Chapter 9: Advanced Class Design
+
+**Abstract** class
+**Abstract** method
+
+Implementing an abstract method = overriding
