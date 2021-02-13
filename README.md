@@ -371,5 +371,10 @@ The first concrete class to inherit from an abstract class:
 - Can extend *multiple* interfaces! (unlike classes)
 - Files can hold only one public interface (like classes)
 
+*Interface methods without a body are implicitly abstract.*
+*Default methods can have a body and do not HAVE TO be overridden.*
+
+
+
 
 
