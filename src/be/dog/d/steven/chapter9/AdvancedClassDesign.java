@@ -66,7 +66,9 @@ interface canDive {  // Also abstract
 }
 
 interface canFloat {
-    Boolean isFloater();
+    default Boolean isFloater(){ // Default methods can have a body | They do not HAVE TO be overridden
+        return true;
+    };
 }
 
 interface canSwim extends canDive, canFloat { // Can extend multiple interfaces
@@ -96,11 +98,6 @@ class Duck implements canFly, canSwim {
 
     @Override
     public Boolean isDiver() {
-        return true;
-    }
-
-    @Override
-    public Boolean isFloater() {
         return true;
     }
 }
