@@ -342,6 +342,7 @@ Because of **polymorphism** an object can be accessed using a reference of:
 
 **Abstract methods**: 
 - Can only exist in abstract classes or interfaces
+- Can not have a method body
 - Can not be more accessible than their concrete implementations (*Overriding rules apply!)
 - Because it prevents the ability to be overridden:
   - They can not be final
@@ -354,4 +355,21 @@ Because of **polymorphism** an object can be accessed using a reference of:
 The first concrete class to inherit from an abstract class:
 - Must implement all inherited abstract methods from abstract classes
 - Must implement all abstract methods from inherited interfaces
+
+**Interfaces**:
+- Are implicitly abstract
+- Can only be public or package-private (like classes)
+- Members are implicitly assumed to be public
+- Variables are implicitly static final (or constant)
+- Can hold:
+  - Constant variables
+  - Abstract methods
+  - Static methods (Java 8+)
+  - Default methods (Java 8+)
+  - Private methods (Java 9+)
+  - Private static methods (Java 9+)
+- Can extend *multiple* interfaces! (unlike classes)
+- Files can hold only one public interface (like classes)
+
+
 
