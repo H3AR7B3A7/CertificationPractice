@@ -51,3 +51,12 @@ class DefaultInitialization {
         System.out.println("local:"+c);
     }
 }
+
+class OrderOfModifiers {
+    public final void writeA(){ // The final modifier can be placed before or after the access modifier
+        System.out.println("A");
+    }
+    final public void writeB(){
+        System.out.println("B");
+    }
+}

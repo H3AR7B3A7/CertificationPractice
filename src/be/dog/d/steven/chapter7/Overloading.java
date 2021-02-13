@@ -1,4 +1,4 @@
-package be.dog.d.steven.chapter6;
+package be.dog.d.steven.chapter7;
 
 import java.util.ArrayList;
 import java.util.List;
