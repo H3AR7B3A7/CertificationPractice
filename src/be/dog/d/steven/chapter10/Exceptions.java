@@ -18,7 +18,7 @@ public class Exceptions {
         throw new SQLException();
     }
 
-    public int tryAnotherSomethingElse() throws ClassNotFoundException{ // Don't need to expect RuntimeExceptions
+    public int tryAnotherSomethingElse() throws ClassNotFoundException { // Don't need to expect RuntimeExceptions
         throw new ClassNotFoundException();
     }
 
@@ -33,12 +33,39 @@ public class Exceptions {
             exceptions.trySomethingElse();
             exceptions.tryAnotherSomethingElse();
             exceptions.tryAnotherSomethingElseEntirely(); // RuntimeException doesn't need to be handled
-        } catch (CloneNotSupportedException e){ // We can chain catch blocks
-            e.printStackTrace();
-        } catch (SQLException | ClassNotFoundException f){ // We can use a multi-catch block
+        } catch (CloneNotSupportedException e) { // We can chain catch blocks
+            System.out.println("Handle this differently ...");
+            e.printStackTrace(); // Curly braces are required even with just 1 statement
+        } catch (SQLException | ClassNotFoundException f) { // We can use a multi-catch block
+            System.out.println("Handle these in the same way ..."); // This block will not run because of CloneNotSupportedException
             f.printStackTrace();
         } finally { // Optionally we can add a finally block
             System.out.println("Exceptional!"); // This will print after try block executes OR fails to execute
+        }
+    }
+}
+
+// PRINTING EXCEPTIONS
+
+class BumpedKneeException extends Exception {
+    public BumpedKneeException(String message) {
+        super(message);
+    }
+}
+
+class Printing {
+
+    private static void run() throws BumpedKneeException {
+        throw new BumpedKneeException("It hurts!");
+    }
+
+    public static void main(String[] args) {
+        try {
+            Printing.run();
+        } catch (BumpedKneeException b) {
+            System.out.println(b);
+            System.out.println(b.getMessage());
+            b.printStackTrace();
         }
     }
 }
