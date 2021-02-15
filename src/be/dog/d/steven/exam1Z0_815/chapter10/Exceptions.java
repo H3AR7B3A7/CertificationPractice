@@ -1,4 +1,4 @@
-package be.dog.d.steven.chapter10;
+package be.dog.d.steven.exam1Z0_815.chapter10;
 
 import java.io.IOException;
 import java.sql.SQLException;

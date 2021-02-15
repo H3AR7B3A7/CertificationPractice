@@ -1,4 +1,4 @@
-package be.dog.d.steven.chapter6;
+package be.dog.d.steven.exam1Z0_815.chapter6;
 
 import java.util.*;
 import java.util.function.Predicate;

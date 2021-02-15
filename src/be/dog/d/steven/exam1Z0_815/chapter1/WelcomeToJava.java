@@ -1,4 +1,4 @@
-package be.dog.d.steven.chapter1; // Package declaration: before import statements
+package be.dog.d.steven.exam1Z0_815.chapter1; // Package declaration: before import statements
 
 import java.lang.*; // Import statement: java.lang is redundant, always implicitly imported
 

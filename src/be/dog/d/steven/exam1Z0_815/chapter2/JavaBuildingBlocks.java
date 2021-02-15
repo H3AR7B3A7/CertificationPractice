@@ -1,4 +1,4 @@
-package be.dog.d.steven.chapter2;
+package be.dog.d.steven.exam1Z0_815.chapter2;
 
 public class JavaBuildingBlocks {
     public static void main(String[] args) {
