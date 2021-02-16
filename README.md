@@ -2,7 +2,7 @@
 
 Practicing Java oddities and outliers for Oracle Certification, with:
 
-*OCP Oracle Certified Professional STUDY GUIDE - J. Boyarsky & S. Selikoff*
+*[OCP Oracle Certified Professional STUDY GUIDE - J. Boyarsky & S. Selikoff](https://www.selikoff.net/ocp11-1/)*
 
 **WARNING**: Some syntax in these exercises should never be used in real projects.
 It might be easily misinterpreted and won't make you any friends among your colleagues.
