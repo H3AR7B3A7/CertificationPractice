@@ -117,12 +117,12 @@ Don't need to be able to use in examples for this exam
 ## The java Command
 Describing a module:
 ```
-java -p mods -d zoo.animal.feeding
+java -p out -d zoo.animal.feeding
 ```
 
 Alternate form of describing a module
 ```
-java -p mods --describe-module zoo.animal.feeding
+java -p out --describe-module zoo.animal.feeding
 ```
 Listing available modules in JDK:
 ```
