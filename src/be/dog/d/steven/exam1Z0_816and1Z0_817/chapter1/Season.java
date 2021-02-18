@@ -9,7 +9,7 @@ public enum Season {
     private final String visitors;
 
     Season(String visitors) {
-        System.out.println("And god made a season...");
+        System.out.println("And god created a season...");
         this.visitors = visitors;
     }
 
