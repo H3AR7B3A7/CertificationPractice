@@ -9,5 +9,4 @@ It might be easily misinterpreted and won't make you any friends among your coll
 It is only useful to understand when undertaking the Oracle Certification Test.
 
 - [1ZO-815 EXAM](1Z0-815.md)
-- [1ZO-816 EXAM](1Z0-816.md)
-- [1ZO-817 EXAM](1Z0-817.md)
+- [1ZO-816 EXAM & 1Z0-817](1Z0-816and1Z0-817.md)
