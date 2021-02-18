@@ -1,5 +1,9 @@
 package be.dog.d.steven.exam1Z0_816and1Z0_817.chapter1;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
 import static be.dog.d.steven.exam1Z0_816and1Z0_817.chapter1.Season.*;
 
 public class JavaFundamentals {
@@ -219,5 +223,87 @@ interface Tests {
     private void c() {
         print("test");
         printStatic("test");
+    }
+}
+
+// FUNCTIONAL PROGRAMMING
+
+@FunctionalInterface
+interface Sprint {
+    void sprint(int speed); // Only one SAM
+
+    String toString(); // Object methods allowed
+
+    boolean equals(Object o);
+
+    int hashCode();
+
+    default void sweat() {
+    } // Not abstract
+
+    static int drag(int height) {
+        return -1 * Sprint.height(height);
+    }
+
+    private static int height(int height) {
+        return height / 2;
+    }
+}
+
+class Runner implements Sprint {
+    @Override
+    public void sprint(int speed) {
+        System.out.println("Runs " + speed + " km/h");
+    }
+}
+
+class Animal {
+    private String species;
+    private boolean canSwim;
+    private boolean canFly;
+
+    public Animal(String species, boolean canSwim, boolean canFly) {
+        this.species = species;
+        this.canSwim = canSwim;
+        this.canFly = canFly;
+    }
+
+    public boolean canSwim() {
+        return canSwim;
+    }
+
+    public boolean canFly() {
+        return canFly;
+    }
+
+    @Override
+    public String toString() {
+        return species;
+    }
+}
+
+class Search {
+    private static void print(List<Animal> animals, Predicate<Animal> checker, String message) {
+        for (Animal animal : animals) {
+            if (checker.test(animal)) {
+                System.out.println(animal + " " + message);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        var animals = new ArrayList<Animal>();
+        animals.add(new Animal("duck", true, true));
+        animals.add(new Animal("beaver", true, false));
+        animals.add(new Animal("cat", false, false));
+        animals.add(new Animal("seagull", false, true));
+
+        print(animals, a -> a.canFly(), "can fly");
+        print(animals, Animal::canSwim, "can swim");
+
+        animals.stream()
+                .filter(a -> a.canFly())
+                .filter(Animal::canSwim)
+                .forEach(a -> System.out.println(a + " can swim and fly"));
     }
 }
