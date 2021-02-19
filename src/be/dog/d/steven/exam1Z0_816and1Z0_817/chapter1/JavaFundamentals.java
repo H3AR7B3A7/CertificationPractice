@@ -255,6 +255,11 @@ class Runner implements Sprint {
     public void sprint(int speed) {
         System.out.println("Runs " + speed + " km/h");
     }
+
+    public static void main(String[] args) {
+        Runner r = new Runner();
+        List.of(1, 2, 3, 4).forEach(i -> r.sprint(i));
+    }
 }
 
 class Animal {
