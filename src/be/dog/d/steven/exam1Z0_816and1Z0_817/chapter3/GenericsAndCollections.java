@@ -88,19 +88,25 @@ public class GenericsAndCollections {
         Function<Integer, List<String>> methodReference7 = ArrayList::new;
         Function<Integer, List<String>> lambda7 = s -> new ArrayList<>(s);
 
-        // COLLECTIONS:
+        // COLLECTION INTERFACES:
 
         // LIST
 
-        List<String> list = new ArrayList<>();
+        List<String> list1 = new ArrayList<>();
+        List<String> list2 = new LinkedList<>();
+        List<String> list3 = new Stack<>();
 
         // SET
 
-        Set<String> set = new HashSet<>();
+        Set<String> set1 = new HashSet<>();
+        Set<String> set2 = new LinkedHashSet<>();
+        Set<String> set3 = new TreeSet<>();
 
         // MAP
 
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map1 = new HashMap<>();
+        Map<String, String> map2 = new LinkedHashMap<>();
+        Map<String, String> map3 = new TreeMap<>();
 
         // QUEUE
 
@@ -112,6 +118,38 @@ public class GenericsAndCollections {
         System.out.println(q.poll());
         System.out.println(q.poll());
         System.out.println(q.poll());
+        LinkedList<Integer> ll = new LinkedList<>();
+        ll.add(1);
+        ll.add(2);
+        ll.add(3);
+        System.out.println("Lifo Queue - LinkedList");
+        System.out.println(ll.pollLast());
+        System.out.println(ll.pollLast());
+        System.out.println(ll.pollLast());
+        Deque<Integer> dq = new LinkedList<>();
+        dq.add(1);
+        dq.add(2);
+        dq.add(3);
+        System.out.println("Lifo Queue - Deque");
+        System.out.println(dq.pollLast());
+        System.out.println(dq.pollLast());
+        System.out.println(dq.pollLast());
+        ArrayDeque<Integer> adq = new ArrayDeque<>();
+        adq.add(1);
+        adq.add(2);
+        adq.add(3);
+        System.out.println("Lifo Queue - ArrayDeque");
+        System.out.println(adq.pollLast());
+        System.out.println(adq.pollLast());
+        System.out.println(adq.pollLast());
+        Stack<Integer> stack = new Stack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        System.out.println("Lifo Queue - Stack:");
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
         Queue<Integer> pq = new PriorityQueue<>();
         pq.add(2);
         pq.add(1);
@@ -128,13 +166,32 @@ public class GenericsAndCollections {
         System.out.println(rpq.poll());
         System.out.println(rpq.poll());
         System.out.println(rpq.poll());
-        Stack<Integer> stack = new Stack<>();
-        stack.push(1);
-        stack.push(2);
-        stack.push(3);
-        System.out.println("Stack:");
-        System.out.println(stack.pop());
-        System.out.println(stack.pop());
-        System.out.println(stack.pop());
+
+        // COLLECTION METHODS
+
+        list1.add("a");
+        list1.remove("a");
+        list1.isEmpty();
+        list1.size();
+        list1.clear();
+        list1.contains("a");
+        list1.removeIf(s -> s.startsWith("a"));
+        list1.forEach(System.out::println);
+
+        // CREATE LISTS WITH FACTORY METHODS
+
+        Integer[] array = new Integer[]{1,2,3};
+        List<Integer> list = Arrays.asList(array); // Array backed list
+        System.out.println("array = " + Arrays.toString(array));
+        System.out.println("list = " + list);
+        array[0] = 8;
+        System.out.println("array = " + Arrays.toString(array));
+        System.out.println("list = " + list);
+        list.set(2, 9);
+        System.out.println("array = " + Arrays.toString(array));
+        System.out.println("list = " + list);
+
+        list = List.of(array); // Immutable list
+        list = List.copyOf(list); // Immutable list
     }
 }
