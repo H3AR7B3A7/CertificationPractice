@@ -16,6 +16,7 @@ class SpeechTherapist {
     public static void teach1(String word, LearnToSpeak therapy) {
         therapy.speak(word);
     }
+
     public static void teach2(String word, Consumer<String> consumer) {
         consumer.accept(word);
     }
@@ -180,8 +181,8 @@ public class GenericsAndCollections {
 
         // CREATE LISTS WITH FACTORY METHODS
 
-        Integer[] array = new Integer[]{1,2,3};
-        List<Integer> list = Arrays.asList(array); // Array backed list
+        Integer[] array = new Integer[]{1, 2, 3};
+        List<Integer> list = Arrays.asList(array);  // Array backed list
         System.out.println("array = " + Arrays.toString(array));
         System.out.println("list = " + list);
         array[0] = 8;
@@ -191,7 +192,132 @@ public class GenericsAndCollections {
         System.out.println("array = " + Arrays.toString(array));
         System.out.println("list = " + list);
 
-        list = List.of(array); // Immutable list
-        list = List.copyOf(list); // Immutable list
+        list = List.of(array);  // Immutable list
+        list = List.copyOf(list);  // Immutable list
+
+        // MAP METHODS
+
+        map1.put("1", null);
+        map1.put("1", "A");
+        map1.put("1", "B");
+        System.out.println(map1);
+        map1.put("1", null);
+        map1.putIfAbsent("1", "A");
+        map1.putIfAbsent("1", "B");
+        System.out.println(map1);
+
+        BiFunction<String, String, String> merge1 = (s1, s2) -> s1.length() > s2.length() ? s1 : s2;
+        map2.put("1", "1");
+        map2.merge("1", "12", merge1);
+        System.out.println(map2);
+
+        // SORTING:
+        // COMPARABLE
+
+        List<BunnyRabbit> bunnies = new ArrayList<>();
+        bunnies.add(new BunnyRabbit("puffball", 4)); // Comparable in BunnyRabbit ignores case
+        bunnies.add(new BunnyRabbit("Fluffy", 3));
+        bunnies.add(new BunnyRabbit("Fluffy", 1));
+        bunnies.add(new BunnyRabbit("Snowwy", 3));
+        bunnies.add(new BunnyRabbit("Whisker", 2));
+
+        Collections.sort(bunnies);
+        System.out.println(bunnies); // Print in BunnyRabbit prints name with capitalized first letter
+
+        // COMPARATOR
+
+        Comparator<BunnyRabbit> byAge1 = new Comparator<>() {  // FUNCTIONAL INTERFACE
+            @Override
+            public int compare(BunnyRabbit o1, BunnyRabbit o2) {
+                if (o1.getAge() - o2.getAge() != 0){ // If age is not equal
+                    return o1.getAge() - o2.getAge(); // Compare age
+                }
+                return o1.getName().compareToIgnoreCase(o2.getName());  // Else compare name
+            }
+        };
+
+        Comparator<BunnyRabbit> byAge2 = (o1, o2) -> {  // LAMBDA
+            if (o1.getAge() - o2.getAge() != 0){
+                return o1.getAge() - o2.getAge();
+            }
+            return o1.getName().compareToIgnoreCase(o2.getName());
+        };
+
+        Collections.sort(bunnies, byAge1);  // SORT USING COLLECTIONS
+        bunnies.sort(byAge1);  // SORT USING LIST
+        System.out.println(bunnies);
+
+        bunnies.sort(byAge1.reversed());  // Both age and name reversed
+        System.out.println(bunnies);
+
+        Comparator<BunnyRabbit> byAge3 = Comparator.comparingInt(BunnyRabbit::getAge).reversed().thenComparing(BunnyRabbit::getName); // METHOD REFERENCE
+        Comparator<BunnyRabbit> byAge4 = Comparator.comparingInt(BunnyRabbit::getAge).thenComparing(BunnyRabbit::getName).reversed();
+        Comparator<BunnyRabbit> byAge5 = Comparator.comparingInt(BunnyRabbit::getAge).reversed().thenComparing(BunnyRabbit::getName).reversed();
+
+        bunnies.sort(byAge3);
+        System.out.println(bunnies);  // Only age reversed
+        bunnies.sort(byAge4);
+        System.out.println(bunnies);  // Both age and name reversed
+        bunnies.sort(byAge5);
+        System.out.println(bunnies);  // Only name reversed (by calling reversed() twice)
+
+        Comparator<BunnyRabbit> natural = Comparator.naturalOrder();  // Comparator using the Comparable interface
+        Comparator<BunnyRabbit> reversed = Comparator.reverseOrder();
+    }
+}
+
+// IMPLEMENTING COMPARABLE
+
+class BunnyRabbit implements Comparable<BunnyRabbit> {
+    private final String name;
+    private final int age;
+
+    public BunnyRabbit(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public int compareTo(BunnyRabbit o) {
+        if (o == null) {
+            throw new IllegalArgumentException("Poorly formed BunnyRabbit.");
+        }
+        if (this.name == null && o.name == null) {
+            return 0;
+        } else if (this.name == null) {
+            return -1;
+        } else if (o.name == null) {
+            return 1;
+        }
+        if (name.compareToIgnoreCase(o.name) != 0) {  // If name is not equal
+            return name.compareToIgnoreCase(o.name);  // Compare name
+        }
+        return this.age - o.age;  // Else compare age
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BunnyRabbit that = (BunnyRabbit) o;
+        return age == that.age && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+
+    @Override
+    public String toString() {
+        return name.substring(0, 1).toUpperCase() + name.substring(1) + " (" + age + ")";
     }
 }
