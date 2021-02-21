@@ -263,10 +263,22 @@ public class GenericsAndCollections {
 
         Comparator<BunnyRabbit> natural = Comparator.naturalOrder();  // Comparator using the Comparable interface
         Comparator<BunnyRabbit> reversed = Comparator.reverseOrder();
+
+        Set<BunnyRabbit> rabbits = new TreeSet<>();
+        rabbits.add(new BunnyRabbit("Splinter",50));
+        Set<Turtle> ninjaTurtles = new TreeSet<>((o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
+        ninjaTurtles.add(new Turtle("Raphael",18));
+
+        // GENERICS
+
+        Crate<BunnyRabbit> bunnyRabbitCrate = new Crate<>();
+        bunnyRabbitCrate.loadCrate(new BunnyRabbit("Fluffy",1));
+        BunnyRabbit bunnyRabbit = bunnyRabbitCrate.unloadCrate();
+        System.out.println(bunnyRabbit);
     }
 }
 
-// IMPLEMENTING COMPARABLE
+// IMPLEMENTING COMPARABLE: COMPARE TO AND EQUALS
 
 class BunnyRabbit implements Comparable<BunnyRabbit> {
     private final String name;
@@ -319,5 +331,83 @@ class BunnyRabbit implements Comparable<BunnyRabbit> {
     @Override
     public String toString() {
         return name.substring(0, 1).toUpperCase() + name.substring(1) + " (" + age + ")";
+    }
+}
+
+// A CLASS NOT IMPLEMENTING COMPARABLE
+
+class Turtle {
+    private final String name;
+    private final int age;
+
+    public Turtle(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+
+// GENERICS
+
+class Crate<T> {
+    private T content;
+
+    public void loadCrate(T content){
+        this.content = content;
+    }
+
+    public T unloadCrate(){
+        return content;
+    }
+
+    public static <T> Crate<T> ship(T t){
+        return new Crate<T>();
+    }
+}
+
+// WILDCARDS
+
+class Wildcards {
+    public static void printStuff(List<?> stuff) {  // UNBOUNDED
+        for (Object o: stuff) {
+            System.out.println(o);
+        }
+    }
+
+    public static double sumAnything(List<? extends Number> stuff) {
+        double sum = 0;
+        for (Number n: stuff) {
+            sum += n.doubleValue();
+        }
+        return Math.round(sum * 100.0) / 100.0;
+    }
+
+    public static void addSomething(List<? super String> someList) {
+        someList.add("something");
+    }
+
+    public static void main(String[] args) {
+        List<BunnyRabbit> anything = new ArrayList<>();
+        anything.add(new BunnyRabbit("Fluffy", 3));
+        printStuff(anything);
+
+        List<Float> notLongs = new ArrayList<>();
+        notLongs.add(1.12f);
+        notLongs.add(1.01f);
+        System.out.println(sumAnything(notLongs));
+
+        List<String> stringList = new ArrayList<>();
+        addSomething(stringList);
+        System.out.println(stringList);
+        List<Object> objectList = new ArrayList<>();
+        addSomething(objectList);
+        System.out.println(objectList);
     }
 }
