@@ -229,7 +229,7 @@ public class GenericsAndCollections {
         Comparator<BunnyRabbit> byAge1 = new Comparator<>() {  // FUNCTIONAL INTERFACE
             @Override
             public int compare(BunnyRabbit o1, BunnyRabbit o2) {
-                if (o1.getAge() - o2.getAge() != 0){ // If age is not equal
+                if (o1.getAge() - o2.getAge() != 0) { // If age is not equal
                     return o1.getAge() - o2.getAge(); // Compare age
                 }
                 return o1.getName().compareToIgnoreCase(o2.getName());  // Else compare name
@@ -237,7 +237,7 @@ public class GenericsAndCollections {
         };
 
         Comparator<BunnyRabbit> byAge2 = (o1, o2) -> {  // LAMBDA
-            if (o1.getAge() - o2.getAge() != 0){
+            if (o1.getAge() - o2.getAge() != 0) {
                 return o1.getAge() - o2.getAge();
             }
             return o1.getName().compareToIgnoreCase(o2.getName());
@@ -265,14 +265,14 @@ public class GenericsAndCollections {
         Comparator<BunnyRabbit> reversed = Comparator.reverseOrder();
 
         Set<BunnyRabbit> rabbits = new TreeSet<>();
-        rabbits.add(new BunnyRabbit("Splinter",50));
+        rabbits.add(new BunnyRabbit("Splinter", 50));
         Set<Turtle> ninjaTurtles = new TreeSet<>((o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
-        ninjaTurtles.add(new Turtle("Raphael",18));
+        ninjaTurtles.add(new Turtle("Raphael", 18));
 
         // GENERICS
 
         Crate<BunnyRabbit> bunnyRabbitCrate = new Crate<>();
-        bunnyRabbitCrate.loadCrate(new BunnyRabbit("Fluffy",1));
+        bunnyRabbitCrate.loadCrate(new BunnyRabbit("Fluffy", 1));
         BunnyRabbit bunnyRabbit = bunnyRabbitCrate.unloadCrate();
         System.out.println(bunnyRabbit);
     }
@@ -359,15 +359,15 @@ class Turtle {
 class Crate<T> {
     private T content;
 
-    public void loadCrate(T content){
+    public void loadCrate(T content) {
         this.content = content;
     }
 
-    public T unloadCrate(){
+    public T unloadCrate() {
         return content;
     }
 
-    public static <T> Crate<T> ship(T t){
+    public static <T> Crate<T> ship(T t) {
         return new Crate<T>();
     }
 }
@@ -376,14 +376,14 @@ class Crate<T> {
 
 class Wildcards {
     public static void printStuff(List<?> stuff) {  // UNBOUNDED
-        for (Object o: stuff) {
+        for (Object o : stuff) {
             System.out.println(o);
         }
     }
 
     public static double sumAnything(List<? extends Number> stuff) {
         double sum = 0;
-        for (Number n: stuff) {
+        for (Number n : stuff) {
             sum += n.doubleValue();
         }
         return Math.round(sum * 100.0) / 100.0;
