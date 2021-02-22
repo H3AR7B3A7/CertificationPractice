@@ -1,10 +1,10 @@
 package be.dog.d.steven.exam1Z0_816and1Z0_817.chapter4;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FunctionalProgramming {
     public static void main(String[] args) {
@@ -125,5 +125,66 @@ class OptionalExample {
         System.out.println(average3.orElseThrow(() -> new IllegalStateException()));
         System.out.println(average3.orElseThrow(IllegalStateException::new));
 
+    }
+}
+
+// STREAMS
+
+class SteeamExample {
+    public static void main(String[] args) {
+
+        // SOURCES
+
+        Stream<String> s1 = Stream.empty();
+        Stream<Integer> s2 = Stream.of(1, 2, 3);
+        Stream<Double> s3 = Stream.generate(Math::random);
+        Stream<Integer> s4 = Stream.iterate(1, n -> n + 2);
+        Stream<Integer> s5 = Stream.iterate(1, n -> n < 100, n -> n + 2);
+
+        List<Integer> list = List.of(1, 2, 3);
+        Stream<Integer> s6 = list.stream();
+        Stream<Integer> s7 = list.parallelStream();
+
+        // TERMINAL OPERATIONS
+        Long count = s5.count();
+        System.out.println(count);
+
+        Stream<String> s8 = Stream.of("monkey", "ape", "gorilla", "bonobo");
+        Optional<String> min = s8.min((o1, o2) -> o1.length() - o2.length());
+        min.ifPresent(System.out::println);
+        Stream<String> s9 = Stream.of("monkey", "ape", "gorilla", "bonobo");
+        Optional<String> max = s9.max((o1, o2) -> o1.length() - o2.length());
+        max.ifPresent(System.out::println);
+
+        Stream<String> s10 = Stream.of("monkey", "ape", "gorilla", "bonobo");
+        s10.findAny().ifPresent(System.out::println);
+        s3.findAny().ifPresent(System.out::println);
+        Stream<String> s11 = Stream.of("monkey", "ape", "gorilla", "bonobo");
+        s11.findFirst().ifPresent(System.out::println);
+
+        List<String> strings = List.of("monkey", "ape", "gorilla", "bonobo");
+        Predicate<String> firstCharIsLetter = x -> Character.isLetter(x.charAt(0));
+        System.out.println(strings.stream().anyMatch(firstCharIsLetter));
+        System.out.println(strings.stream().allMatch(firstCharIsLetter));
+        System.out.println(strings.stream().noneMatch(firstCharIsLetter));
+
+        s2.forEach(System.out::println);
+
+        System.out.println(strings.stream().reduce("", (s, c) -> s + c));
+        System.out.println(strings.stream().reduce("", String::concat));
+        Stream<Integer> s12 = Stream.of(1, 2, 3);
+        Optional<Integer> result = s12.reduce((a, b) -> a * b);
+        result.ifPresent(System.out::println);
+        int length = strings.stream().reduce(0, (i, s) -> i + s.length(), Integer::sum);
+        System.out.println(length);
+
+        StringBuilder sb = strings.stream().collect(StringBuilder::new, StringBuilder::append, StringBuilder::append);
+        System.out.println(sb);
+        TreeSet<String> treeSet1 = strings.stream().collect(TreeSet::new, TreeSet::add, TreeSet::addAll);
+        System.out.println(treeSet1);
+        TreeSet<String> treeSet2 = strings.stream().collect(Collectors.toCollection(TreeSet::new));
+        System.out.println(treeSet2);
+        Set<String> mostLikelyHashSet = strings.stream().collect(Collectors.toSet());
+        System.out.println(mostLikelyHashSet);
     }
 }
