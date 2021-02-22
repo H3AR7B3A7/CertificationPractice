@@ -3,8 +3,7 @@ package be.dog.d.steven.exam1Z0_816and1Z0_817.chapter4;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 public class FunctionalProgramming {
     public static void main(String[] args) {
@@ -130,7 +129,7 @@ class OptionalExample {
 
 // STREAMS
 
-class SteeamExample {
+class StreamExample {
     public static void main(String[] args) {
 
         // SOURCES
@@ -186,5 +185,75 @@ class SteeamExample {
         System.out.println(treeSet2);
         Set<String> mostLikelyHashSet = strings.stream().collect(Collectors.toSet());
         System.out.println(mostLikelyHashSet);
+
+        List<String> animals = List.of("bunny", "monkey", "ape", "bird", "gorilla", "bonobo", "giraffe", "duck", "duck", "duck");
+        animals.stream().filter(s -> s.startsWith("b")).forEach(s -> System.out.print(s + " "));
+        System.out.println();
+
+        animals.stream().distinct().forEach(s -> System.out.print(s + " "));
+        System.out.println();
+
+        animals.stream().skip(5).limit(3).forEach(s -> System.out.print(s + " "));
+        System.out.println();
+
+        animals.stream().map(String::length).forEach(s -> System.out.print(s + " "));
+        System.out.println();
+
+        List<String> zero = List.of();
+        List<String> one = List.of("worm");
+        List<String> two = List.of("snail", "beetle");
+        List<List<String>> lists = List.of(zero,one,two);
+        lists.stream().flatMap(l -> l.stream()).forEach(s -> System.out.print(s + " "));
+        lists.stream().flatMap(Collection::stream).forEach(s -> System.out.print(s + " "));
+
+        animals.stream().sorted(Comparator.reverseOrder()).forEach(s -> System.out.print(s + " "));
+        System.out.println();
+
+        Long numberOfWords = animals.stream().filter(s -> s.contains("b")).peek(System.out::println).count();
+        System.out.println(numberOfWords);
+    }
+}
+
+// PRIMITIVE STREAMS
+
+class PrimitiveStreamExample {
+    public static void main(String[] args) {
+        IntStream intStream = IntStream.of(1,2,3);
+        OptionalDouble avg = intStream.average();
+        avg.ifPresent(System.out::println);
+        System.out.println(avg.getAsDouble());
+
+        LongStream longStream = LongStream.empty();
+
+        DoubleStream doubleStream1 = DoubleStream.generate(Math::random);
+        DoubleStream doubleStream2 = DoubleStream.iterate(1, x -> x/ 2);
+        DoubleStream doubleStream3 = new Random().doubles();
+
+        doubleStream1.limit(3).forEach(System.out::println);
+        doubleStream2.limit(3).forEach(System.out::println);
+        doubleStream3.limit(3).forEach(System.out::println);
+
+        IntStream range = IntStream.range(1,4);
+        IntStream rangeClosed = IntStream.rangeClosed(1,4);
+        range.forEach(s -> System.out.print(s + " "));
+        System.out.println();
+        rangeClosed.forEach(s -> System.out.print(s + " "));
+        System.out.println();
+
+        Stream<String> animals = Stream.of("bunny", "monkey", "ape", "bird", "gorilla", "bonobo", "giraffe", "duck", "duck", "duck");
+        IntStream lengths = animals.mapToInt(String::length);
+        lengths.forEach(s -> System.out.print(s + " "));
+        System.out.println();
+
+        List<Integer> intList = List.of(1,2,3);
+        IntStream ints1 = intList.stream().flatMapToInt(IntStream::of);
+        ints1.forEach(s -> System.out.print(s + " "));
+        System.out.println();
+
+        IntStream ints2 = intList.stream().flatMapToInt(IntStream::of);
+        Stream<Integer> objStream1 = ints2.mapToObj(i -> i);
+        IntStream ints3 = intList.stream().flatMapToInt(IntStream::of);
+        Stream<Integer> objStream2 = ints2.boxed();
+
     }
 }
