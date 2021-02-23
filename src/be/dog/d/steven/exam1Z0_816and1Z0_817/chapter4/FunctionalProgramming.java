@@ -254,6 +254,45 @@ class PrimitiveStreamExample {
         Stream<Integer> objStream1 = ints2.mapToObj(i -> i);
         IntStream ints3 = intList.stream().flatMapToInt(IntStream::of);
         Stream<Integer> objStream2 = ints2.boxed();
+    }
+}
+
+// SUMMARY STATISTICS
+
+class SummaryStatisticsExample {
+    private static int max(IntStream ints) {
+        OptionalInt optional = ints.max();
+        return optional.orElseThrow(RuntimeException::new);
+    }
+
+    private static int range(IntStream ints) {
+        IntSummaryStatistics stats = ints.summaryStatistics();
+        if(stats.getCount() == 0){
+            throw new RuntimeException();
+        }
+        return stats.getMax() - stats.getMin();
+    }
+
+    private static void printStats(IntStream ints) {
+        IntSummaryStatistics stats = ints.summaryStatistics();
+        if(stats.getCount() == 0){
+            throw new RuntimeException();
+        }
+        System.out.println("max = " + stats.getMax());
+        System.out.println("min = " + stats.getMin());
+        System.out.println("avg = " + stats.getAverage());
+        System.out.println("count = " + stats.getCount());
+        System.out.println("sum = " + stats.getSum());
+    }
+
+    public static void main(String[] args) {
+        IntStream ints1 = IntStream.rangeClosed(5,10);
+        System.out.println(range(ints1));
+
+        IntStream ints2 = IntStream.rangeClosed(5,10);
+        printStats(ints2);
+
 
     }
 }
+
