@@ -186,6 +186,8 @@ class StreamExample {
         Set<String> mostLikelyHashSet = strings.stream().collect(Collectors.toSet());
         System.out.println(mostLikelyHashSet);
 
+        // INTERMEDIATE OPERATIONS
+
         List<String> animals = List.of("bunny", "monkey", "ape", "bird", "gorilla", "bonobo", "giraffe", "duck", "duck", "duck");
         animals.stream().filter(s -> s.startsWith("b")).forEach(s -> System.out.print(s + " "));
         System.out.println();
@@ -202,7 +204,7 @@ class StreamExample {
         List<String> zero = List.of();
         List<String> one = List.of("worm");
         List<String> two = List.of("snail", "beetle");
-        List<List<String>> lists = List.of(zero,one,two);
+        List<List<String>> lists = List.of(zero, one, two);
         lists.stream().flatMap(l -> l.stream()).forEach(s -> System.out.print(s + " "));
         lists.stream().flatMap(Collection::stream).forEach(s -> System.out.print(s + " "));
 
@@ -211,6 +213,20 @@ class StreamExample {
 
         Long numberOfWords = animals.stream().filter(s -> s.contains("b")).peek(System.out::println).count();
         System.out.println(numberOfWords);
+
+        System.out.println(
+                Stream.iterate(1, x -> x++) // Post-increment
+                        .limit(5)
+                        .map(x -> "" + x)
+                        .collect(Collectors.joining())
+        ); // 11111
+
+        System.out.println(
+                Stream.iterate(1, x -> ++x) // Pre-increment
+                        .limit(5)
+                        .map(x -> "" + x)
+                        .collect(Collectors.joining())
+        ); // 12345
     }
 }
 
@@ -218,7 +234,7 @@ class StreamExample {
 
 class PrimitiveStreamExample {
     public static void main(String[] args) {
-        IntStream intStream = IntStream.of(1,2,3);
+        IntStream intStream = IntStream.of(1, 2, 3);
         OptionalDouble avg = intStream.average();
         avg.ifPresent(System.out::println);
         System.out.println(avg.getAsDouble());
@@ -226,15 +242,15 @@ class PrimitiveStreamExample {
         LongStream longStream = LongStream.empty();
 
         DoubleStream doubleStream1 = DoubleStream.generate(Math::random);
-        DoubleStream doubleStream2 = DoubleStream.iterate(1, x -> x/ 2);
+        DoubleStream doubleStream2 = DoubleStream.iterate(1, x -> x / 2);
         DoubleStream doubleStream3 = new Random().doubles();
 
         doubleStream1.limit(3).forEach(System.out::println);
         doubleStream2.limit(3).forEach(System.out::println);
         doubleStream3.limit(3).forEach(System.out::println);
 
-        IntStream range = IntStream.range(1,4);
-        IntStream rangeClosed = IntStream.rangeClosed(1,4);
+        IntStream range = IntStream.range(1, 4);
+        IntStream rangeClosed = IntStream.rangeClosed(1, 4);
         range.forEach(s -> System.out.print(s + " "));
         System.out.println();
         rangeClosed.forEach(s -> System.out.print(s + " "));
@@ -245,7 +261,7 @@ class PrimitiveStreamExample {
         lengths.forEach(s -> System.out.print(s + " "));
         System.out.println();
 
-        List<Integer> intList = List.of(1,2,3);
+        List<Integer> intList = List.of(1, 2, 3);
         IntStream ints1 = intList.stream().flatMapToInt(IntStream::of);
         ints1.forEach(s -> System.out.print(s + " "));
         System.out.println();
@@ -267,7 +283,7 @@ class SummaryStatisticsExample {
 
     private static int range(IntStream ints) {
         IntSummaryStatistics stats = ints.summaryStatistics();
-        if(stats.getCount() == 0){
+        if (stats.getCount() == 0) {
             throw new RuntimeException();
         }
         return stats.getMax() - stats.getMin();
@@ -275,7 +291,7 @@ class SummaryStatisticsExample {
 
     private static void printStats(IntStream ints) {
         IntSummaryStatistics stats = ints.summaryStatistics();
-        if(stats.getCount() == 0){
+        if (stats.getCount() == 0) {
             throw new RuntimeException();
         }
         System.out.println("max = " + stats.getMax());
@@ -286,13 +302,60 @@ class SummaryStatisticsExample {
     }
 
     public static void main(String[] args) {
-        IntStream ints1 = IntStream.rangeClosed(5,10);
+        IntStream ints1 = IntStream.rangeClosed(5, 10);
         System.out.println(range(ints1));
 
-        IntStream ints2 = IntStream.rangeClosed(5,10);
+        IntStream ints2 = IntStream.rangeClosed(5, 10);
         printStats(ints2);
 
 
     }
 }
 
+// COLLECTING
+
+class CollectorExamples {
+    public static void main(String[] args) {
+        var stream = Stream.of("lions", "tigers", "bear");
+        String result = stream.collect(Collectors.joining(", "));
+        System.out.println(result);
+
+        List<String> list = List.of("lions", "tigers", "bears");
+        Double averageLength = list.stream().collect(Collectors.averagingInt(String::length));
+        System.out.println(averageLength);
+
+        TreeSet<String> treeSet = list.stream()
+                .filter(s -> s.startsWith("t"))
+                .collect(Collectors.toCollection(TreeSet::new));
+        System.out.println(treeSet);
+
+        Map<String, Integer> map1 = list.stream().collect(Collectors.toMap(s -> s, String::length));
+        System.out.println(map1);
+
+        Map<Integer, String> map2 = list.stream().collect(Collectors.toMap(String::length, s -> s, (s1, s2) -> s1 + "," + s2));
+        System.out.println(map2); // 3d param handles collisions
+
+        Map<Integer, List<String>> map3 = list.stream().collect(Collectors.groupingBy(String::length));
+        System.out.println(map3);
+
+        Map<Integer, Set<String>> map4 = list.stream().collect(Collectors.groupingBy(String::length, Collectors.toSet()));
+        System.out.println(map4);
+
+        TreeMap<Integer, Set<String>> map5 = list.stream()
+                .collect(Collectors.groupingBy(String::length, TreeMap::new, Collectors.toSet()));
+        System.out.println(map5);
+
+        Map<Boolean, List<String>> map6 = list.stream().collect(Collectors.partitioningBy(s -> s.length() < 6));
+        System.out.println(map6);
+
+        Map<Boolean, Set<String>> map7 = list.stream().collect(Collectors.partitioningBy(s -> s.length() < 7, Collectors.toSet()));
+        System.out.println(map7);
+
+        Map<Integer, Long> map8 = list.stream().collect(Collectors.groupingBy(String::length, Collectors.counting()));
+        System.out.println(map8);
+
+        Map<Integer, Optional<Character>> map9 = list.stream()
+                .collect(Collectors.groupingBy(String::length, Collectors.mapping(s -> s.charAt(0), Collectors.minBy((a, b) -> a - b))));
+        System.out.println(map9); // 3d param handles collisions, picking smallest char if present
+    }
+}
