@@ -273,7 +273,7 @@ class ResourceBundleExample {
         rb3.keySet().stream()
                 .map(k -> k + ": " + rb3.getString(k))
                 .forEach(System.out::println);
-        ResourceBundle rb4 = ResourceBundle.getBundle("be.dog.d.steven.exam1Z0_816and1Z0_817.chapter5.Zoo", new Locale("ge","GE"));
+        ResourceBundle rb4 = ResourceBundle.getBundle("be.dog.d.steven.exam1Z0_816and1Z0_817.chapter5.Zoo", new Locale("ge", "GE"));
         rb4.keySet().stream()
                 .map(k -> k + ": " + rb4.getString(k))
                 .forEach(System.out::println);
@@ -289,8 +289,8 @@ class ResourceBundleExample {
         System.out.println(rb1.getString("default")); // Will look in parent files if key is not present (zone > lang > default bundle)
 
         String format = rb1.getString("formatted_string");
-        System.out.println(MessageFormat.format(format,"Steven", "Belgium"));
-        System.out.println(MessageFormat.format(format,"Steven"));
+        System.out.println(MessageFormat.format(format, "Steven", "Belgium"));
+        System.out.println(MessageFormat.format(format, "Steven"));
     }
 }
 
@@ -299,9 +299,9 @@ class ResourceBundleExample {
 class PropertiesExample {
     public static void main(String[] args) {
         Properties props = new Properties();
-        props.setProperty("name","Steven");
-        props.setProperty("age","31");
-        props.put("faulty_age",31); // We can use put() to add non-strings, but this will not not work as expected
+        props.setProperty("name", "Steven");
+        props.setProperty("age", "31");
+        props.put("faulty_age", 31); // We can use put() to add non-strings, but this will not not work as expected
 
         System.out.println(props.getProperty("name"));
         System.out.println(props.getProperty("camel"));
