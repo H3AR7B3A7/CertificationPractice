@@ -2,8 +2,8 @@ package be.dog.d.steven.exam1Z0_816and1Z0_817.chapter7;
 
 // CREATING THREADS
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.List;
+import java.util.concurrent.*;
 
 class PrintData implements Runnable { // Implementing Runnable
     @Override
@@ -81,10 +81,80 @@ class Single {
             executorService.execute(task2);
             System.out.println("End");
         } finally {
-            if(executorService != null){
+            if (executorService != null) {
                 executorService.shutdown(); // Close the executor!!!
             }
         }
+    }
+}
+
+class SingleFuture {
+    private static int COUNTER = 0;
+
+    public static void main(String[] args) throws Exception {
+        ExecutorService executorService = null;
+        try {
+            System.out.println("Get ready...");
+            executorService = Executors.newSingleThreadExecutor(); // One thread, tasks will complete in stated order.
+            System.out.println("set...");
+            Future<?> result = executorService.submit(() -> {
+                System.out.println("go");
+                for (int i = 0; i < 1_000_000; i++) {
+                    COUNTER++;
+                }
+                return "finish";
+            });
+            while (COUNTER < 500_000) {
+                System.out.println("Not Reached!!!");
+                Thread.sleep(1);
+            }
+            System.out.println(result.get(1, TimeUnit.MILLISECONDS));
+            if (COUNTER > 500_000) {
+                System.out.println("Reached!!!");
+            }
+            System.out.println("END");
+        } catch (TimeoutException e) {
+            System.out.println("Not reached in time.");
+        } finally {
+            if (executorService != null) {
+                executorService.shutdown(); // Close the executor!!!
+            }
+        }
+    }
+}
+
+class FutureExample {
+    public static void main(String[] args) throws Exception {
+        ExecutorService executorService = null;
+        try {
+            executorService = Executors.newSingleThreadExecutor();
+            Future<Integer> result = executorService.submit(() -> 20 + 22);
+            System.out.println(result.get());
+        } finally {
+            if (executorService != null) {
+                executorService.shutdown();
+            }
+        }
+    }
+}
+
+class ListOfFutures {
+    public static void main(String[] args) throws Exception{
+        ExecutorService executorService = null;
+        System.out.println("START");
+        Callable<String> task = () -> "bla";
+        try {
+            executorService = Executors.newSingleThreadExecutor();
+            List<Future<String>> list = executorService.invokeAll(List.of(task, task, task)); // Executed synchronously
+            for (Future<String> future: list){
+                System.out.println(future.get());
+            }
+        }finally {
+            if(executorService != null){
+                executorService.shutdown();
+            }
+        }
+        System.out.println("END");
     }
 }
 
