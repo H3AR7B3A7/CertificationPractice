@@ -234,3 +234,63 @@ class SheepManager {
     }
 }
 
+// SYNCHRONIZED BLOCK / MONITOR
+
+class SheepManagerSynchronized {
+    private final AtomicInteger sheepCount = new AtomicInteger(0);
+
+    private void incrementAndReport() {
+        synchronized (this) {
+            System.out.println(sheepCount.incrementAndGet() + " "); // Synchronized execution
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = null;
+        try {
+            executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+            SheepManagerSynchronized manager = new SheepManagerSynchronized();
+            for (int i = 0; i < 10; i++) {
+                executorService.submit(manager::incrementAndReport);
+            }
+        } finally {
+            if (executorService != null) {
+                executorService.shutdown();
+            }
+        }
+    }
+}
+
+class SheepManagerSynchronized2 {
+    private final AtomicInteger sheepCount = new AtomicInteger(0);
+    private final static AtomicInteger WOLF_COUNT = new AtomicInteger(0);
+
+    private synchronized void incrementAndReportSheep() {
+            System.out.println(sheepCount.incrementAndGet() + " sheep, "); // Synchronized execution
+    }
+
+    private static synchronized void incrementAndReportWolves() {
+        System.out.println(WOLF_COUNT.incrementAndGet() + " wolves, "); // Synchronized execution
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = null;
+        try {
+            executorService = Executors.newFixedThreadPool(10);
+            SheepManagerSynchronized2 manager = new SheepManagerSynchronized2();
+            for (int i = 0; i < 10; i++) {
+                executorService.submit(manager::incrementAndReportSheep);
+                executorService.submit(SheepManagerSynchronized2::incrementAndReportWolves);
+            }
+        } finally {
+            if (executorService != null) {
+                executorService.shutdown();
+            }
+        }
+    }
+}
+
+
+
+
+
