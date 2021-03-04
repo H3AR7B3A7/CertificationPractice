@@ -3,8 +3,11 @@ package be.dog.d.steven.exam1Z0_816and1Z0_817.chapter7;
 // CREATING THREADS
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 class PrintData implements Runnable { // Implementing Runnable
     @Override
@@ -266,7 +269,7 @@ class SheepManagerSynchronized2 {
     private final static AtomicInteger WOLF_COUNT = new AtomicInteger(0);
 
     private synchronized void incrementAndReportSheep() {
-            System.out.println(sheepCount.incrementAndGet() + " sheep, "); // Synchronized execution
+        System.out.println(sheepCount.incrementAndGet() + " sheep, "); // Synchronized execution
     }
 
     private static synchronized void incrementAndReportWolves() {
@@ -290,7 +293,122 @@ class SheepManagerSynchronized2 {
     }
 }
 
+// LOCK FRAMEWORK
+
+class SheepManagerLocked {
+    private Integer sheepCount = 0; // Need for atomic integer ???
+
+    private void incrementAndReport(Lock lock) {
+        try {
+            lock.lock();
+            System.out.println(++sheepCount + " "); // Synchronized execution
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = null;
+        try {
+            executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+            SheepManagerLocked manager = new SheepManagerLocked();
+            Lock lock = new ReentrantLock();
+            for (int i = 0; i < 10; i++) {
+                executorService.submit(new Thread(() -> manager.incrementAndReport(lock)));
+            }
+        } finally {
+            if (executorService != null) {
+                executorService.shutdown();
+            }
+        }
+    }
+}
+
+class TryLock {
+    public static void print(Lock lock) {
+        try {
+            lock.lock();
+            int i;
+            for (i = 0; i < 100000000; i++) {
+                i++;
+            }
+            System.out.println(i);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) {
+        Lock lock = new ReentrantLock();
+        new Thread(() -> print(lock)).start();
+        if (lock.tryLock()) {
+            try {
+                System.out.println("Lock obtained, entering protected code.");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            System.out.println("Unable to acquire lock, doing something else.");
+        }
+    }
+}
+
+// CYCLIC BARRIER
+
+class LionPenManager {
+    private void removeLions() {
+        System.out.println("Removing lions...");
+    }
+
+    private void cleanPen() {
+        System.out.println("Cleaning pen...");
+    }
+
+    private void addLions() {
+        System.out.println("Adding lions...");
+    }
+
+    public void performLionPenCleaning(CyclicBarrier barrier1, CyclicBarrier barrier2) {
+        try {
+            removeLions();
+            barrier1.await();
+            cleanPen();
+            barrier2.await();
+            addLions();
+        } catch (BrokenBarrierException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = null;
+        try {
+            executorService = Executors.newFixedThreadPool(4);
+            var manager = new LionPenManager();
+            var b1 = new CyclicBarrier(4);
+            var b2 = new CyclicBarrier(4, () -> System.out.println("*** PEN CLEANED!!! ***"));
+            for (int i = 0; i < 4; i++) {
+                executorService.submit(() -> manager.performLionPenCleaning(b1, b2));
+            }
+        } finally {
+            if (executorService != null) {
+                executorService.shutdown();
+            }
+        }
+    }
+}
+
+// CONCURRENT COLLECTIONS
+
+class ConcurrentCollections {
+    public static void main(String[] args) {
+        Map<String, String> map = new ConcurrentHashMap<>();
+        map.put("test1", "test");
+        map.put("test2", "test");
+        for (String key: map.keySet()) {
+            map.remove(key); // This would throw an error on the second loop for a regular hashmap
+        }
 
 
-
-
+    }
+}
