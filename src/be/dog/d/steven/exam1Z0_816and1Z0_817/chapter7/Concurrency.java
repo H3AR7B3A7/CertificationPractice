@@ -2,6 +2,7 @@ package be.dog.d.steven.exam1Z0_816and1Z0_817.chapter7;
 
 // CREATING THREADS
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -412,3 +413,37 @@ class ConcurrentCollections {
 
     }
 }
+
+class CopyOnWrite {
+    public static void main(String[] args) {
+        List<Integer> list = new CopyOnWriteArrayList<>(List.of(1,2,3));
+        for (Integer i: list) { // Loops over original list
+            System.out.println(i + " ");
+            list.add(4); // New list created - Copy on write
+        }
+        System.out.println("Size: " + list.size()); // Prints size of new list
+
+        List<String> birds = new CopyOnWriteArrayList<>(); // Uses loads of memory
+        birds.add("eagle");
+        birds.add("chicken");
+        birds.add("dove");
+        for (String bird: birds) {
+            birds.remove(bird);
+        }
+        System.out.println("Size: " + birds.size());
+
+        birds = new ArrayList<>(); // The same result with iterator
+        birds.add("eagle");
+        birds.add("chicken");
+        birds.add("dove");
+        var iter = birds.iterator();
+        while (iter.hasNext()){
+            iter.next();
+            iter.remove();
+        }
+        System.out.println("Size: " + birds.size());
+    }
+}
+
+
+
