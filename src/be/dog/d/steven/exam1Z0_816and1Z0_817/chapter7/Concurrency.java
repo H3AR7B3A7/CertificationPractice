@@ -2,9 +2,7 @@ package be.dog.d.steven.exam1Z0_816and1Z0_817.chapter7;
 
 // CREATING THREADS
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
@@ -414,7 +412,7 @@ class ConcurrentCollections {
     }
 }
 
-class CopyOnWrite {
+class ConcurrentCollections2 {
     public static void main(String[] args) {
         List<Integer> list = new CopyOnWriteArrayList<>(List.of(1,2,3));
         for (Integer i: list) { // Loops over original list
@@ -442,8 +440,28 @@ class CopyOnWrite {
             iter.remove();
         }
         System.out.println("Size: " + birds.size());
+
+        try {
+            var blockingQueue = new LinkedBlockingQueue<Integer>();
+            blockingQueue.offer(1);
+            blockingQueue.offer(2,10,TimeUnit.SECONDS); // Extra method from BlockingQueue
+            System.out.println(blockingQueue.poll());
+            System.out.println(blockingQueue.poll(10, TimeUnit.MICROSECONDS)); // Extra method
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        var normalMap = new HashMap<String,Object>();
+        normalMap.put("birds", "feather");
+        normalMap.put("flock", "together");
+        var synchronizedMap = Collections.synchronizedMap(normalMap);
+        for (String key: synchronizedMap.keySet()) {
+            synchronizedMap.remove(key); // Throws exception !!! Can't iterate over collection, but is thread safe.
+        }
     }
 }
+
+
 
 
 
