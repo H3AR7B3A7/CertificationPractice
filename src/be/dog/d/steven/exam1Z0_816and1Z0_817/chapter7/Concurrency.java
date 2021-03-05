@@ -7,6 +7,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class PrintData implements Runnable { // Implementing Runnable
@@ -530,3 +531,27 @@ class ReduceExamples {
     }
 }
 
+// COLLECT WITH PARALLEL STREAMS
+
+class CollectExamples {
+    public static void main(String[] args) {
+        List<String> strings = List.of("w","o","l","f");
+        SortedSet<String> set1 = strings.parallelStream()
+                .collect(ConcurrentSkipListSet::new,
+                        Set::add,
+                        Set::addAll);
+        System.out.println(set1);
+
+        List<String> list = strings.parallelStream()
+                .collect(ArrayList::new,
+                        List::add,
+                        List::addAll);
+        System.out.println(list);
+
+        Set<String> set2 = strings.parallelStream()
+                .collect(Collectors.toSet());  // Not a parallel reduction
+        System.out.println(Collectors.toSet().characteristics());  // Not CONCURRENT
+
+
+    }
+}
