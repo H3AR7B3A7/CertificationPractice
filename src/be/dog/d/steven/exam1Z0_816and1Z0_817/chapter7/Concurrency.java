@@ -7,6 +7,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Stream;
 
 class PrintData implements Runnable { // Implementing Runnable
     @Override
@@ -404,7 +405,7 @@ class ConcurrentCollections {
         Map<String, String> map = new ConcurrentHashMap<>();
         map.put("test1", "test");
         map.put("test2", "test");
-        for (String key: map.keySet()) {
+        for (String key : map.keySet()) {
             map.remove(key); // This would throw an error on the second loop for a regular hashmap
         }
 
@@ -414,8 +415,8 @@ class ConcurrentCollections {
 
 class ConcurrentCollections2 {
     public static void main(String[] args) {
-        List<Integer> list = new CopyOnWriteArrayList<>(List.of(1,2,3));
-        for (Integer i: list) { // Loops over original list
+        List<Integer> list = new CopyOnWriteArrayList<>(List.of(1, 2, 3));
+        for (Integer i : list) { // Loops over original list
             System.out.println(i + " ");
             list.add(4); // New list created - Copy on write
         }
@@ -425,7 +426,7 @@ class ConcurrentCollections2 {
         birds.add("eagle");
         birds.add("chicken");
         birds.add("dove");
-        for (String bird: birds) {
+        for (String bird : birds) {
             birds.remove(bird);
         }
         System.out.println("Size: " + birds.size());
@@ -435,7 +436,7 @@ class ConcurrentCollections2 {
         birds.add("chicken");
         birds.add("dove");
         var iter = birds.iterator();
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             iter.next();
             iter.remove();
         }
@@ -444,24 +445,88 @@ class ConcurrentCollections2 {
         try {
             var blockingQueue = new LinkedBlockingQueue<Integer>();
             blockingQueue.offer(1);
-            blockingQueue.offer(2,10,TimeUnit.SECONDS); // Extra method from BlockingQueue
+            blockingQueue.offer(2, 10, TimeUnit.SECONDS); // Extra method from BlockingQueue
             System.out.println(blockingQueue.poll());
             System.out.println(blockingQueue.poll(10, TimeUnit.MICROSECONDS)); // Extra method
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        var normalMap = new HashMap<String,Object>();
+        var normalMap = new HashMap<String, Object>();
         normalMap.put("birds", "feather");
         normalMap.put("flock", "together");
         var synchronizedMap = Collections.synchronizedMap(normalMap);
-        for (String key: synchronizedMap.keySet()) {
+        for (String key : synchronizedMap.keySet()) {
             synchronizedMap.remove(key); // Throws exception !!! Can't iterate over collection, but is thread safe.
         }
     }
 }
 
+// PARALLEL STREAMS
 
+class ParallelStreams {
+    public static void main(String[] args) {
+        List<Integer> list = List.of(1, 2, 3, 4, 5);
+        Stream<Integer> stream = list.stream();
+        Stream<Integer> parallelStream1 = stream.parallel();
 
+        Stream<Integer> parallelStream2 = list.parallelStream();
 
+        Stream<Integer> unorderedParallelStream = list.stream().unordered().parallel();
+
+        long start = System.currentTimeMillis();
+        list.stream()
+                .map(w -> doWork(w))
+                .forEach(System.out::println);
+        var timeTaken = (System.currentTimeMillis() - start) / 1000;
+        System.out.println("Time: " + timeTaken + " seconds");
+
+        start = System.currentTimeMillis();
+        list.parallelStream()
+                .map(w -> doWork(w))
+                .forEach(System.out::println);
+        timeTaken = (System.currentTimeMillis() - start) / 1000;
+        System.out.println("Time: " + timeTaken + " seconds");
+
+        start = System.currentTimeMillis();
+        list.parallelStream()
+                .map(w -> doWork(w))
+                .forEachOrdered(System.out::println); // Ordered foreach results
+        timeTaken = (System.currentTimeMillis() - start) / 1000;
+        System.out.println("Time: " + timeTaken + " seconds");
+    }
+
+    private static int doWork(int input) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return input;
+    }
+}
+
+// REDUCE WITH PARALLEL STREAMS
+
+class ReduceExamples {
+    public static void main(String[] args) {
+        List<Character> characters = List.of('w', 'o', 'l', 'f');
+        String str1 = characters.parallelStream()
+                .reduce("",
+                        (s1, c) -> s1 + c,  // w + o ,  l + f
+                        (s1, s2) -> s1 + s2);  // wo + lf
+        System.out.println(str1);  // This works !
+
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+        int result = numbers.parallelStream()
+                .reduce(0,
+                        (a, b) -> a - b);  // Problematic accumulator
+        System.out.println(result);  // Unpredictable
+
+        String str2 = characters.parallelStream()
+                .map(a -> "" + a)
+                .reduce("X", String::concat); // Problematic identity
+        System.out.println(str2); // XwXoXlXf
+    }
+}
 
