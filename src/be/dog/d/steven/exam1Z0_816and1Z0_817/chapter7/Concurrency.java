@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 class PrintData implements Runnable { // Implementing Runnable
@@ -535,7 +536,7 @@ class ReduceExamples {
 
 class CollectExamples {
     public static void main(String[] args) {
-        List<String> strings = List.of("w","o","l","f");
+        List<String> strings = List.of("w", "o", "l", "f");
         SortedSet<String> set1 = strings.parallelStream()
                 .collect(ConcurrentSkipListSet::new,
                         Set::add,
@@ -552,6 +553,44 @@ class CollectExamples {
                 .collect(Collectors.toSet());  // Not a parallel reduction
         System.out.println(Collectors.toSet().characteristics());  // Not CONCURRENT
 
+        List<String> animals = List.of("lions","tigers","bears");
+        ConcurrentMap<Integer, String> animalsByLength1 = animals.parallelStream().collect(Collectors.toConcurrentMap(
+                String::length,
+                k -> k,
+                (s1, s2) -> s1 + ", " + s2)
+        );
+        System.out.println(animalsByLength1);
 
+        ConcurrentMap<Integer, List<String>> animalsByLength2 = animals.parallelStream().collect(Collectors.groupingByConcurrent(
+                String::length
+        ));
+        System.out.println(animalsByLength2);
+    }
+}
+
+// STATEFUL VS STATELESS
+
+class StatelessOperations {
+    public static List<Integer> statefulAddValues(IntStream source) {
+        var data = Collections.synchronizedList(new ArrayList<Integer>());
+        source.filter(s -> s % 2 == 0)
+                .forEach(i -> data.add(i));  // STATEFUL
+        return data;
+    }
+
+    public static List<Integer> statelessAddValues(IntStream source) {
+        return source.filter(s-> s%2 == 0)
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
+    public static void main(String[] args) {
+        var list1 = statefulAddValues(IntStream.range(1,11));  // Serial
+        System.out.println(list1);  // No problem
+        var list2 = statefulAddValues(IntStream.range(1,11).parallel());  // Parallel
+        System.out.println(list2);  // No longer ordered
+
+        var list3 = statelessAddValues(IntStream.range(1,11).parallel());
+        System.out.println(list3);
     }
 }
