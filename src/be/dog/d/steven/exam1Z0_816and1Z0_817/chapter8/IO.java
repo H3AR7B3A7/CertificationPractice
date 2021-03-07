@@ -74,25 +74,25 @@ public class IO {
 class StreamsEverywhere {
     void copyStream(InputStream in, OutputStream out) throws IOException {
         int b;
-        while ((b = in.read()) != -1){
+        while ((b = in.read()) != -1) {
             out.write(b);
         }
     }
 
     void copyStream(Reader in, Writer out) throws IOException {
         int b;
-        while ((b = in.read()) != -1){
+        while ((b = in.read()) != -1) {
             out.write(b);
         }
     }
 
     public static void readData(InputStream input) throws IOException {
         System.out.print((char) input.read());
-        if(input.markSupported()) {
-            input.mark(100);
+        if (input.markSupported()) {
+            input.mark(100);  // Not all input streams support mark
             System.out.print(input.read());
             System.out.print((char) input.read());
-            input.reset();
+            input.reset();  // Not all input streams support reset
         }
         System.out.print((char) input.read());
         System.out.print((char) input.read());
@@ -102,11 +102,11 @@ class StreamsEverywhere {
 
     public static void readData(Reader input) throws IOException {
         System.out.print((char) input.read());
-        if(input.markSupported()) {
-            input.mark(100);
+        if (input.markSupported()) {
+            input.mark(100);  // Not all input streams support mark
             System.out.print(input.read());
             System.out.print((char) input.read());
-            input.reset();
+            input.reset();  // Not all input streams support reset
         }
         System.out.print((char) input.read());
         System.out.print((char) input.read());
@@ -114,43 +114,68 @@ class StreamsEverywhere {
         System.out.println();
     }
 
-    public static void main(String[] args) {  // Calls close() three times
+    public static void main(String[] args) {
+        // Calls close() three times
         try (var fis = new FileOutputStream("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/Output.txt");
-                var bis = new BufferedOutputStream(fis);
-                var ois = new ObjectOutputStream(bis)){
+             var bis = new BufferedOutputStream(fis);
+             var ois = new ObjectOutputStream(bis)) {
             ois.writeObject("test");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        try (var ois = new ObjectOutputStream(  // Calls close() once
+        // Calls close() once
+        try (var ois = new ObjectOutputStream(
                 new BufferedOutputStream(
-                        new FileOutputStream("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/Output.txt")))){
+                        new FileOutputStream("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/Output.txt")))) {
             ois.writeObject("test");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // Does not support mark
-        try (InputStream input = new FileInputStream("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/File1.txt")){
+        // Does not support mark / reset
+        try (InputStream input = new FileInputStream("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/File1.txt")) {
             readData(input);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // Does not support mark
+        // Does not support mark / reset
         try (InputStreamReader input = new InputStreamReader(
                 new FileInputStream("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/File1.txt"),
-                StandardCharsets.UTF_8)){
+                StandardCharsets.UTF_8)) {
             readData(input);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // Does support mark
+        // Does support mark / reset
         try (BufferedReader input = new BufferedReader(
-                new FileReader("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/File1.txt"))){
+                new FileReader("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/File1.txt"))) {
             readData(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (InputStream input = new FileInputStream("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/File1.txt")) {
+            System.out.println("Skipping: " + input.skip(1));  // Skip works on any input stream
+            int next = input.read();
+            while (next != -1) {
+                System.out.print((char) next);
+                next = input.read();
+            }
+            System.out.println();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (var fos = new FileOutputStream("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/Output.txt")) {
+            for (int i = 0; i < 1000; i++) {
+                fos.write('a');
+                if (i % 100 == 0) {
+                    fos.flush();  // Writes fos to disk ever 100 chars
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
