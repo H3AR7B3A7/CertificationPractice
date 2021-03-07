@@ -2,7 +2,9 @@ package be.dog.d.steven.exam1Z0_816and1Z0_817.chapter8;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -179,5 +181,159 @@ class StreamsEverywhere {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+}
+
+// BUFFERED I/O STREAMS
+
+class Buffers {
+    public static void copyFileWithBuffer(File src, File dest) throws IOException {
+        try (var in = new BufferedInputStream(new FileInputStream(src));
+             var out = new BufferedOutputStream((new FileOutputStream(dest)))) {
+            var buffer = new byte[1024];
+            int lengthRead;
+            while ((lengthRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, lengthRead);
+                out.flush();
+            }
+        }
+    }
+
+    public static void copyTextFileWithBuffer(File src, File dest) throws IOException {
+        try (var reader = new BufferedReader(new FileReader(src));
+             var writer = new BufferedWriter(new FileWriter(dest))) {
+            String s;
+            while ((s = reader.readLine()) != null) {
+                writer.write(s);
+                writer.newLine();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        var myFile = new File("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/File1.txt");
+        var myFileCopy = new File("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/Copy.txt");
+
+        try {
+            copyFileWithBuffer(myFile, myFileCopy);
+            copyTextFileWithBuffer(myFile, myFileCopy);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// SERIALIZABLE
+
+class Dog implements Serializable {
+    private static final long serialVersionID = 1L;
+    private String name;
+    private String breed;
+    private int age;
+    private Boolean isFriendly;
+    private transient String favoriteFood;
+
+    public Dog(String name, String breed, int age, Boolean isFriendly, String favoriteFood) {
+        this.name = name;
+        this.breed = breed;
+        this.age = age;
+        this.isFriendly = isFriendly;
+        this.favoriteFood = favoriteFood;
+    }
+
+    public static long getSerialVersionID() {
+        return serialVersionID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Boolean getFriendly() {
+        return isFriendly;
+    }
+
+    public void setFriendly(Boolean friendly) {
+        isFriendly = friendly;
+    }
+
+    public String getFavoriteFood() {
+        return favoriteFood;
+    }
+
+    public void setFavoriteFood(String favoriteFood) {
+        this.favoriteFood = favoriteFood;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+}
+
+class Kennel {
+    public static void putInKennel(List<Dog> dogs, File dogKennel) throws IOException {
+        try (var out = new ObjectOutputStream(
+                new BufferedOutputStream(
+                        new FileOutputStream("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/Kennel.txt")))) {
+            for (Dog dog : dogs) {
+                out.writeObject(dog);
+            }
+        }
+    }
+
+    public static List<Dog> getOutOfKennel(File dogKennel) throws IOException, ClassNotFoundException {
+        var dogs = new ArrayList<Dog>();
+        try (var in = new ObjectInputStream(
+                new BufferedInputStream(
+                        new FileInputStream("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/Kennel.txt")))) {
+            while (true) {
+                var object = in.readObject();
+                if (object instanceof Dog) {
+                    dogs.add((Dog) object);
+                }
+            }
+        } catch (EOFException e) {
+            // File end reached
+        }
+        return dogs;
+    }
+
+    public static void main(String[] args) {
+        Dog d = new Dog("Zorro", "Greater Dane", 7, true, "sausages");
+        Dog e = new Dog("Baco","none", 5, true, "footballs");
+
+        File kennel = new File("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/Kennel.txt");
+
+        List<Dog> retrievedDogs = new ArrayList<>();
+
+        try {
+            putInKennel(List.of(d,e), kennel);
+            retrievedDogs = getOutOfKennel(kennel);
+        } catch (IOException | ClassNotFoundException ioException) {
+            ioException.printStackTrace();
+        }
+
+        System.out.println(retrievedDogs);
     }
 }
