@@ -32,6 +32,13 @@ public class NIO {
         // FileSystem
         Path path4 = FileSystems.getDefault().getPath("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter9/files/File1.txt");
 
+        // METHODS
+        System.out.println(path1.getParent().normalize().toAbsolutePath()); // Method chaining, returning new path
+
+        System.out.println(path1.toString());
+        System.out.println(path1.getNameCount());
+        System.out.println(path1.getName(4));
+
 
     }
 }
