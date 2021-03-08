@@ -321,19 +321,98 @@ class Kennel {
 
     public static void main(String[] args) {
         Dog d = new Dog("Zorro", "Greater Dane", 7, true, "sausages");
-        Dog e = new Dog("Baco","none", 5, true, "footballs");
+        Dog e = new Dog("Baco", "none", 5, true, "footballs");
 
         File kennel = new File("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/Kennel.txt");
 
         List<Dog> retrievedDogs = new ArrayList<>();
 
         try {
-            putInKennel(List.of(d,e), kennel);
+            putInKennel(List.of(d, e), kennel);
             retrievedDogs = getOutOfKennel(kennel);
         } catch (IOException | ClassNotFoundException ioException) {
             ioException.printStackTrace();
         }
 
         System.out.println(retrievedDogs);
+    }
+}
+
+// PRINT STREAM & PRINT WRITER
+
+class Printing {
+    public static void main(String[] args) throws FileNotFoundException {
+
+
+        System.out.print("#\n");
+        System.out.print("#\r\n"); // Some OS require a carriage return symbol
+        System.out.print("#" + System.getProperty("line.separator"));
+        System.out.print("#" + System.lineSeparator());
+
+        System.out.format("%s:%nScore: %.2f out of %d%n", "Steven", 2.5, 5);
+
+        try (var out = new PrintWriter(
+                new BufferedWriter(
+                        new FileWriter("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter8/files/Print.txt")))) {
+            out.format("%s:%nScore: %.2f out of %d", "Steven", 2.5, 5);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        var stdin = System.in;
+
+        System.out.println("What is your age?");
+        try (Writer w = new OutputStreamWriter(System.out);
+             Reader r = new InputStreamReader(System.in)) {
+            int age = r.read();  // Only reads one char as an int
+            w.write("You are " + (char) age + " years old.\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (var in = new FileInputStream("Nonexistent.txt")) {
+            System.out.println("Found file.");
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found!!!");  // System.err error printing
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Resetting System out because we closed it
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+        Console console = System.console();  // ??? Returns null
+        System.setIn(new FileInputStream(console.readLine()));
+
+        System.out.println("What is your name?");
+        try (var reader = new BufferedReader(new InputStreamReader(System.in))) {  // ERROR: we closed System.in
+            String input = reader.readLine();
+            System.out.println("Your name is " + input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class Printing2 {
+    public static void main(String[] args) {
+        System.out.println("What is your name?");
+        try (var reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String input = reader.readLine();  // Reads whole line as string
+            System.out.println("Your name is " + input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// CONSOLE
+
+class ConsoleExamples {
+    public static void main(String[] args) {
+        Console console = System.console();  // ??? Returns null
+        if(console != null){
+            String input = console.readLine();
+            console.writer().println(input);
+        }
     }
 }
