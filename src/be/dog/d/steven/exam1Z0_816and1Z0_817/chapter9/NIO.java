@@ -1,5 +1,6 @@
 package be.dog.d.steven.exam1Z0_816and1Z0_817.chapter9;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -8,7 +9,9 @@ import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 // PATH
 
@@ -199,5 +202,49 @@ class Attributes {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+}
+
+// FUNCTIONAL PROGRAMMING WITH NIO
+
+class Functional {
+    private static final Path PATH = Path.of("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter9/files");
+    private static final Path COPIES = Path.of("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter9/copies");
+
+    public static void copyPath(Path source, Path target){
+        try {
+            Files.copy(source, target);
+            if(Files.isDirectory(source)){
+                try (Stream<Path> s = Files.list(source)){
+                    s.forEach(p -> copyPath(p, target.resolve(p.getFileName())));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deletePath(Path path){
+        if(Files.isDirectory(path)){
+            try (Stream<Path> s = Files.walk(path)) {
+                s.sorted(Comparator.reverseOrder())
+                        .map(Path::toFile)
+                        .forEach(File::delete);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int count = PATH.getNameCount();
+        try (Stream<Path> s = Files.list(PATH)){
+            s.map(p -> p.subpath(count,count+1)).forEach(System.out::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        deletePath(COPIES);
+        copyPath(PATH, COPIES);
     }
 }
