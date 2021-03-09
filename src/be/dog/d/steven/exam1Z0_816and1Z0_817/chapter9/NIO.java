@@ -225,7 +225,7 @@ class Functional {
 
         System.out.println("Text documents in 'files':");
         try (var s = Files.find(PATH, 3,
-                        (p, a) -> a.isRegularFile()
+                (p, a) -> a.isRegularFile()
                         && p.toString().endsWith(".txt")
                         && a.size() > 20)) {
             s.map(Path::getFileName)
@@ -235,14 +235,14 @@ class Functional {
         }
 
         System.out.println("Files1 content:");
-        try (var s = Files.lines(PATH.resolve("File1.txt"))){
+        try (var s = Files.lines(PATH.resolve("File1.txt"))) {
             s.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         System.out.println("Files1 content:");
-        try (var s = Files.lines(PATH.resolve("File1.txt"))){
+        try (var s = Files.lines(PATH.resolve("File1.txt"))) {
             s.filter(f -> f.startsWith("Random"))
                     .map(f -> f.substring(12))
                     .forEach(System.out::println);
