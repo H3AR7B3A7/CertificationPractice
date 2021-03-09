@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
 
 // PATH
 
@@ -88,9 +90,33 @@ public class NIO {
         }
 
         try {
+            Files.delete(path2);
             System.out.println("copy(path, path2, copyOptions): "+Files.copy(path1, path2));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            Files.delete(path2.getParent().resolve("destination/"+ path2.getFileName()));
+            System.out.println("copy(path, directory, copyOptions): "+Files.copy(path2, path2.getParent().resolve("destination/"+ path2.getFileName())));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (var reader = Files.newBufferedReader(path1)){
+            System.out.println("newBufferedReader(path): "+reader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.print("readAllLines(path): ");
+        List<String> strings = new ArrayList<>();
+        try {
+            strings = Files.readAllLines(path1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(strings);
     }
 }
+
