@@ -211,14 +211,41 @@ class Functional {
     private static final Path PATH = Path.of("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter9/files");
     private static final Path COPIES = Path.of("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter9/copies");
 
-    public static void copyPath(Path source, Path target) {
-        try {
-            Files.copy(source, target);
-            if (Files.isDirectory(source)) {
-                try (Stream<Path> s = Files.list(source)) {
-                    s.forEach(p -> copyPath(p, target.resolve(p.getFileName())));
-                }
-            }
+    public static void main(String[] args) {
+        int count = PATH.getNameCount();
+        try (Stream<Path> s = Files.list(PATH)) {
+            s.map(p -> p.subpath(count, count + 1)).forEach(System.out::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        deletePath(COPIES);
+        copyPath(PATH, COPIES);
+        System.out.println("The files folder holds " + totalPathSize(PATH) + " bytes.");
+
+        System.out.println("Text documents in 'files':");
+        try (var s = Files.find(PATH, 3,
+                        (p, a) -> a.isRegularFile()
+                        && p.toString().endsWith(".txt")
+                        && a.size() > 20)) {
+            s.map(Path::getFileName)
+                    .forEach(System.out::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Files1 content:");
+        try (var s = Files.lines(PATH.resolve("File1.txt"))){
+            s.forEach(System.out::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Files1 content:");
+        try (var s = Files.lines(PATH.resolve("File1.txt"))){
+            s.filter(f -> f.startsWith("Random"))
+                    .map(f -> f.substring(12))
+                    .forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -236,15 +263,39 @@ class Functional {
         }
     }
 
-    public static void main(String[] args) {
-        int count = PATH.getNameCount();
-        try (Stream<Path> s = Files.list(PATH)) {
-            s.map(p -> p.subpath(count, count + 1)).forEach(System.out::println);
+    public static void copyPath(Path source, Path target) {
+        try {
+            Files.copy(source, target);
+            if (Files.isDirectory(source)) {
+                try (Stream<Path> s = Files.list(source)) {
+                    s.forEach(p -> copyPath(p, target.resolve(p.getFileName())));
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        deletePath(COPIES);
-        copyPath(PATH, COPIES);
     }
+
+    public static long totalPathSize(Path path) {
+        try (var s = Files.walk(path)) {
+            return s.parallel()
+                    .filter(p -> !Files.isDirectory(p))
+                    .mapToLong(Functional::getSize)
+                    .sum();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0L;
+    }
+
+    private static long getSize(Path p) {
+        try {
+            return Files.size(p);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0L;
+    }
+
+
 }
