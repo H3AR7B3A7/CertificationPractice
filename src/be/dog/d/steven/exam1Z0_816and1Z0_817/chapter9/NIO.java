@@ -211,11 +211,11 @@ class Functional {
     private static final Path PATH = Path.of("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter9/files");
     private static final Path COPIES = Path.of("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter9/copies");
 
-    public static void copyPath(Path source, Path target){
+    public static void copyPath(Path source, Path target) {
         try {
             Files.copy(source, target);
-            if(Files.isDirectory(source)){
-                try (Stream<Path> s = Files.list(source)){
+            if (Files.isDirectory(source)) {
+                try (Stream<Path> s = Files.list(source)) {
                     s.forEach(p -> copyPath(p, target.resolve(p.getFileName())));
                 }
             }
@@ -224,8 +224,8 @@ class Functional {
         }
     }
 
-    public static void deletePath(Path path){
-        if(Files.isDirectory(path)){
+    public static void deletePath(Path path) {
+        if (Files.isDirectory(path)) {
             try (Stream<Path> s = Files.walk(path)) {
                 s.sorted(Comparator.reverseOrder())
                         .map(Path::toFile)
@@ -238,8 +238,8 @@ class Functional {
 
     public static void main(String[] args) {
         int count = PATH.getNameCount();
-        try (Stream<Path> s = Files.list(PATH)){
-            s.map(p -> p.subpath(count,count+1)).forEach(System.out::println);
+        try (Stream<Path> s = Files.list(PATH)) {
+            s.map(p -> p.subpath(count, count + 1)).forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
