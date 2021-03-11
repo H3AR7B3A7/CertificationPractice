@@ -36,8 +36,8 @@ class Prepared {
         try (var ps = conn.prepareStatement("SELECT * FROM exhibits");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next())
-                System.out.println(rs.getString(1) + ", "
-                        + rs.getString(2) + ", "
+                System.out.println(rs.getString(1) + ", "  // Starts at 1!
+                        + rs.getString("name") + ", "  // We can use column label or index.
                         + rs.getString(3));
         }
     }
@@ -112,11 +112,11 @@ class Executions {
         var sql = "INSERT INTO names VALUES(?, ?, ?)";
         var nextIndex = firstKey;
 
-        try (var ps = conn.prepareStatement(sql)){
+        try (var ps = conn.prepareStatement(sql)) {
             ps.setInt(2, type);
 
-            for (var name: names) {
-                ps.setInt(1, nextIndex);
+            for (var name : names) {
+                ps.setInt(1, nextIndex);  // Starts at 1! We can only use column index.
                 ps.setString(3, name);
                 ps.addBatch();
 
@@ -124,6 +124,48 @@ class Executions {
             }
             int[] result = ps.executeBatch();
             System.out.println(Arrays.toString(result));
+        }
+    }
+}
+
+// RESULT SET
+
+class Results {
+    private static final String SQL1 = "SELECT count(*) FROM exhibits";
+    private static final String SQL2 = "SELECT count(*) AS count FROM exhibits";
+    private static final String SQL3 = "SELECT * FROM exhibits WHERE name = ?";
+
+    public static void main(String[] args) throws SQLException {
+        String url = "jdbc:derby:zoo";
+
+        try (var conn = DriverManager.getConnection(url);
+             var ps = conn.prepareStatement(SQL1);
+             var rs = ps.executeQuery()) {
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                System.out.println("Number of exhibits: " + count);
+            }
+        }
+
+        try (var conn = DriverManager.getConnection(url);
+             var ps = conn.prepareStatement(SQL2);
+             var rs = ps.executeQuery()) {
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                System.out.println("Number of exhibits: " + count);
+            }
+        }
+
+        try (var conn = DriverManager.getConnection(url);
+             var ps = conn.prepareStatement(SQL3)) {  // Select query with bind variable
+            ps.setString(1, "Zebra");  // Code needs to execute before ResultSet is initialized
+            try (var rs = ps.executeQuery()) {  // Nested try with resources for ResultSet
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    double acres = rs.getDouble("num_acres");
+                    System.out.println("id: " + id + ", acres: " + acres);
+                }
+            }
         }
     }
 }
