@@ -170,3 +170,70 @@ class Results {
     }
 }
 
+// CALLABLE STATEMENT
+
+class CallableStatementExamples {
+    private static final String SQL1 = "{call read_e_names()}";
+    private static final String SQL2 = "{call read_names_by_letter(?)}";  // IN parameter
+    private static final String SQL3 = "{? = call magic_number(?)}";  // OUT parameter
+    private static final String SQL4 = "{call double_number(?)}";  // INOUT parameter
+
+    public static void main(String[] args) throws SQLException {
+        String url = "jdbc:hsqldb:file:zoo";
+
+        try (var conn = DriverManager.getConnection(url);
+            var cs = conn.prepareCall(SQL1);
+            var rs = cs.executeQuery()){
+            while (rs.next()){
+                System.out.println(rs.getString(3));
+            }
+        }
+
+        try (var conn = DriverManager.getConnection(url);
+             var cs = conn.prepareCall(SQL2)){
+            cs.setString("prefix", "Z");
+            try (var rs = cs.executeQuery()){
+                while (rs.next()){
+                    System.out.println(rs.getString(3));
+                }
+            }
+        }
+
+        try (var conn = DriverManager.getConnection(url);
+             var cs = conn.prepareCall(SQL3)){
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.execute();
+            System.out.println(cs.getInt("num"));
+        }
+
+        try (var conn = DriverManager.getConnection(url);
+             var cs = conn.prepareCall(SQL4)){
+            cs.setInt(1, 8);
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.execute();
+            System.out.println(cs.getInt("num"));
+        }
+    }
+}
+
+// EXCEPTIONS
+
+class CatchException {
+    private static final String SQL = "SELECT not_a_column FROM names";
+
+    public static void main(String[] args) {
+        String url = "jdbc:derby:zoo";
+
+        try (var conn = DriverManager.getConnection(url);
+             var cs = conn.prepareStatement(SQL);
+             var rs = cs.executeQuery()){
+            while (rs.next()){
+                System.out.println(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());  // Human readable message saying what went wrong
+            System.err.println(e.getErrorCode());  // DB specific
+            System.err.println(e.getSQLState());  // Code saying what went wrong
+        }
+    }
+}
