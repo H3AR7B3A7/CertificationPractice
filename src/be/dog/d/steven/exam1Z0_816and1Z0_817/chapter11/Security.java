@@ -72,29 +72,24 @@ final class Animal implements Cloneable {
 //    }
 }
 
-// CUSTOM SERIALIZATION
+// SERIALIZATION PROCESSING
 
-class Employee implements Serializable {
+class Member implements Serializable {
     private String name;
     private String ssn;
-    private int age;
 
-    public Employee(String name, String ssn, int age) {
-        this.name = name;
-        this.ssn = ssn;
-        this.age = age;
+    private Member() {
     }
 
-    public String getName() {
-        return name;
-    }
+    private static final Map<String, Member> memberList = new ConcurrentHashMap<>();
 
-    public String getSsn() {
-        return ssn;
-    }
-
-    public int getAge() {
-        return age;
+    public synchronized static Member getMember(String name) {
+        if (memberList.get(name) == null) {
+            var m = new Member();
+            m.name = name;
+            memberList.put(name, m);
+        }
+        return memberList.get(name);
     }
 
     @Serial
@@ -128,26 +123,6 @@ class Employee implements Serializable {
         this.name = (String) fields.get("name", null);
         this.ssn = decrypt((String) fields.get("ssn", null));
     }
-}
-
-// SERIALIZATION PROCESSING
-
-class Member implements Serializable {
-    private String name;
-
-    private Member() {
-    }
-
-    private static final Map<String, Member> memberList = new ConcurrentHashMap<>();
-
-    public synchronized static Member getMember(String name) {
-        if (memberList.get(name) == null) {
-            var m = new Member();
-            m.name = name;
-            memberList.put(name, m);
-        }
-        return memberList.get(name);
-    }
 
     // POST SERIALIZATION PROCESSING
 
@@ -161,6 +136,7 @@ class Member implements Serializable {
         } else {
             // Existing member in list
             existingMember.name = this.name;
+            existingMember.ssn = this.ssn;
             return existingMember;
         }
     }
