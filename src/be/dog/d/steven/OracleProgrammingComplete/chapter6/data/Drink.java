@@ -3,12 +3,12 @@ package be.dog.d.steven.OracleProgrammingComplete.chapter6.data;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 
-public class Drink extends Product{
-    public Drink(int id, String name, BigDecimal price, Rating rating) {
+public final class Drink extends Product {
+    Drink(int id, String name, BigDecimal price, Rating rating) {
         super(id, name, price, rating);
     }
 
-    public Drink(int id, String name, BigDecimal price) {
+    Drink(int id, String name, BigDecimal price) {
         super(id, name, price);
     }
 
@@ -18,9 +18,10 @@ public class Drink extends Product{
     }
 
     @Override
-    public BigDecimal getDiscount() {
-
-        if(LocalTime.now())
-        return super.getDiscount();
+    public BigDecimal getDiscount() {  // Discount only in happy hour
+        LocalTime now = LocalTime.now();
+        return (now.isAfter(LocalTime.of(17, 30))
+                && now.isBefore(LocalTime.of(18, 30)))
+                ? super.getDiscount() : BigDecimal.ZERO;
     }
 }

@@ -3,31 +3,17 @@ package be.dog.d.steven.OracleProgrammingComplete.chapter6.data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Food extends Product {
+public final class Food extends Product {
     private final LocalDate bestBefore;
 
-    public Food(int id, String name, BigDecimal price, Rating rating, LocalDate bestBefore) {
+    Food(int id, String name, BigDecimal price, Rating rating, LocalDate bestBefore) {
         super(id, name, price, rating);
         this.bestBefore = bestBefore;
     }
 
-    public Food(int id, String name, BigDecimal price, LocalDate bestBefore) {
+    Food(int id, String name, BigDecimal price, LocalDate bestBefore) {
         super(id, name, price);
         this.bestBefore = bestBefore;
-    }
-
-    public Food(int id, String name, BigDecimal price, Rating rating) {
-        super(id, name, price, rating);
-        this.bestBefore = LocalDate.now().plusDays(2);
-    }
-
-    public Food(int id, String name, BigDecimal price) {
-        super(id, name, price);
-        this.bestBefore = LocalDate.now().plusDays(2);
-    }
-
-    public Food() {
-        this.bestBefore = LocalDate.now().plusDays(2);
     }
 
     public LocalDate getBestBefore() {
@@ -36,7 +22,7 @@ public class Food extends Product {
 
     @Override
     public Product applyRating(Rating newRating) {
-        return new Food(getId(), getName(), getPrice(), newRating);
+        return new Food(getId(), getName(), getPrice(), newRating, getBestBefore());
     }
 
     @Override
@@ -45,7 +31,7 @@ public class Food extends Product {
     }
 
     @Override
-    public BigDecimal getDiscount() {
+    public BigDecimal getDiscount() {  // Discount only when spoils today
         return (bestBefore.isEqual(LocalDate.now())) ? super.getDiscount() : BigDecimal.ZERO;
     }
 }
