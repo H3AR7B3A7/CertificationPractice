@@ -1,22 +1,23 @@
-package be.dog.d.steven.OracleProgrammingComplete.chapter6.app;
+package be.dog.d.steven.OracleProgrammingComplete.chapter7.app;
 
-import be.dog.d.steven.OracleProgrammingComplete.chapter6.data.*;
+import be.dog.d.steven.OracleProgrammingComplete.chapter7.data.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Locale;
 
 public class Shop {
     public static void main(String[] args) {
-        var productFactory = new ProductFactory();
+        var productFactory = new ProductFactory(Locale.getDefault());
 
         Product p1 = productFactory.createProduct(1, "Tea", BigDecimal.valueOf(2.10));
         Product p2 = productFactory.createProduct(2, "Coffee", BigDecimal.valueOf(2.50), Rating.FOUR_STAR);
         Product p3 = productFactory.createProduct(3, "Cake", BigDecimal.valueOf(3.00), Rating.FIVE_STAR, LocalDate.now().plusDays(2));
         Object p5 = productFactory.createProduct(4,"Beer Sausage", BigDecimal.ONE, Rating.ONE_STAR, LocalDate.now().plusDays(2));
 
-        Product p6 = productFactory.createProduct(5,"Chocolat",BigDecimal.valueOf(2.99),Rating.FIVE_STAR);
-        Product p7 = productFactory.createProduct(5,"Chocolat",BigDecimal.valueOf(2.99),Rating.FIVE_STAR);
-        Product p8 = productFactory.createProduct(5,"Chocolat",BigDecimal.valueOf(2.99),Rating.FIVE_STAR, LocalDate.now().plusDays(2));
+        Product p6 = productFactory.createProduct(5,"Chocolat",BigDecimal.valueOf(2.99), Rating.FIVE_STAR);
+        Product p7 = productFactory.createProduct(5,"Chocolat",BigDecimal.valueOf(2.99), Rating.FIVE_STAR);
+        Product p8 = productFactory.createProduct(5,"Chocolat",BigDecimal.valueOf(2.99), Rating.FIVE_STAR, LocalDate.now().plusDays(2));
 
         Product aboutToSpoil = productFactory.createProduct(4,"Beer sausage", BigDecimal.ONE, Rating.ONE_STAR, LocalDate.now());
 
@@ -49,5 +50,10 @@ public class Shop {
             LocalDate bestBefore = ((Food) p3).getBestBefore();
             System.out.println(bestBefore);
         }
+
+        Rateable<Product> p9 = productFactory.createProduct(6,"Potato Chips", BigDecimal.valueOf(1.60), Rating.THREE_STAR, LocalDate.now().plusDays(2));
+        System.out.println(p9);
+
+        productFactory.printProductReport();
     }
 }
