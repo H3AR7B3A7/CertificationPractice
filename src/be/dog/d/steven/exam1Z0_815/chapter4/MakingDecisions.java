@@ -13,18 +13,23 @@ public class MakingDecisions {
 
     public static void main(String[] args) {
         // IF / ELSE
-        if (a<b) {
+        if (a < b) {
             // Code
-        } else if (a==b) {
+        } else if (a == b) {
             // Code
         } else {
             // Code
         }
 
         // WHILE
-        while (a<b){
+        while (a < b) {
             // Code
         }
+
+        // DO WHILE
+        do {
+            // Code
+        } while (a < b);
 
         // FOR
         for (int i = 0; i < a; i++) {
@@ -32,12 +37,12 @@ public class MakingDecisions {
         }
 
         // ADVANCED FOR
-        for (int i: list) {
+        for (int i : list) {
             // Code
         }
 
         // SWITCH
-        switch (a){ // byte, short, char, int, String or enum
+        switch (a) { // byte, short, char, int, String or enum
             case 1:
                 // Code
                 break;
