@@ -19,7 +19,7 @@ public class Shop {
         var pf2 = new ProductFactory(Locale.getDefault());
         Product p2 = pf2.createProduct(2, "Coffee", BigDecimal.valueOf(2.10));
         p2 = pf2.reviewProduct(p2, Rating.ONE_STAR, "Tasted like water");
-        p2 = pf2.reviewProduct(p2, Rating.TWO_STAR, "Is this coffee? I ordered thé");
+        p2 = pf2.reviewProduct(p2, Rating.TWO_STAR, "Is this coffee? I ordered tea");
         p2 = pf2.reviewProduct(p2, Rating.THREE_STAR, "It was oké");
         pf2.printProductReport();
     }
