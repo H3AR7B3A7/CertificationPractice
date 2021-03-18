@@ -55,5 +55,8 @@ public class Shop {
         System.out.println(p9);
 
         productFactory.printProductReport();
+
+        Food p10 = (Food)p9;
+        Rateable<Product> p11 = (Rateable<Product>) p7;
     }
 }
