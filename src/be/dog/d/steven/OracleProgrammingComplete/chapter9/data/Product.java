@@ -60,9 +60,10 @@ public abstract class Product implements Rateable<Product> {
     public boolean equals(Object o) {
         if (this == o) return true;
 //        if (o == null || getClass() != o.getClass()) return false;
-        if(!(o instanceof Product)) return false; // Check for product instead of food/drink (Chocolate drink = chocolate food)
+        if (!(o instanceof Product))
+            return false; // Check for product instead of food/drink (Chocolate drink = chocolate food)
         final Product product = (Product) o;
-        return id == product.id && Objects.equals(name, product.name) && Objects.equals(price, product.price);
+        return id == product.id; // && Objects.equals(name, product.name) && Objects.equals(price, product.price);
     }
 
     @Override

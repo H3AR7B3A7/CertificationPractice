@@ -1,8 +1,8 @@
 package be.dog.d.steven.OracleProgrammingComplete.chapter9.data;
 
-public class Review {
-    private Rating rating;
-    private String comment;
+public class Review implements Comparable<Review> {
+    private final Rating rating;
+    private final String comment;
 
     public Review(Rating rating, String comment) {
         this.rating = rating;
@@ -21,5 +21,10 @@ public class Review {
     public String toString() {
         return "Review: rating=" + rating +
                 ", comment=" + comment;
+    }
+
+    @Override
+    public int compareTo(Review r) {
+        return r.getRating().ordinal() - rating.ordinal();
     }
 }
