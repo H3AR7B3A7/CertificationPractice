@@ -18,7 +18,7 @@ public class ProductFactory {
 
     public ProductFactory(Locale locale) {
         this.locale = locale;
-        resources = ResourceBundle.getBundle("be/dog/d/steven/OracleProgrammingComplete/chapter7/data/resources", locale);
+        resources = ResourceBundle.getBundle("be/dog/d/steven/OracleProgrammingComplete/chapter9/data/resources", locale);
         dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).localizedBy(locale);
         moneyFormat = NumberFormat.getCurrencyInstance(locale);
     }

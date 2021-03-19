@@ -6,11 +6,11 @@ import be.dog.d.steven.OracleProgrammingComplete.chapter10.data.Rating;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Locale;
 
 public class Shop {
     public static void main(String[] args) {
-        var pf = new ProductFactory(Locale.getDefault());
+        System.out.println(ProductFactory.getSupportedLocales());
+        var pf = new ProductFactory("fr-FR");
 
         pf.createProduct(1, "Pizza", BigDecimal.valueOf(8.50), LocalDate.now().plusDays(2));
         pf.reviewProduct(1, Rating.FIVE_STAR, "Perfect");
@@ -24,6 +24,8 @@ public class Shop {
         pf.reviewProduct(2, Rating.TWO_STAR, "Is this coffee? I ordered tea");
         pf.reviewProduct(2, Rating.THREE_STAR, "It was oké");
         pf.printProductReport(2);
+
+        pf.changeLocale("ru-RU");
 
         pf.createProduct(3, "Tea", BigDecimal.valueOf(1.80));
         pf.reviewProduct(3, Rating.ONE_STAR, "Tasted like dish water");
