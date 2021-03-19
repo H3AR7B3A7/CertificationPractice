@@ -61,7 +61,8 @@ public class Shop {
         Comparator<Product> priceSorter = Comparator.comparing(Product::getPrice);
 
         pf.printProducts(ratingSorter);
-        pf.printProducts(priceSorter);
+        pf.printProducts(priceSorter.reversed());
+        pf.printProducts(priceSorter.thenComparing(ratingSorter));
 
         // ANONYMOUS INNER CLASS
         System.out.println(new Product(Integer.MAX_VALUE, "Toy", BigDecimal.ZERO, Rating.FIVE_STAR) {
