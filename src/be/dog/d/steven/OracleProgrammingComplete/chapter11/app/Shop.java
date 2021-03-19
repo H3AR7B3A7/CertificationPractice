@@ -7,6 +7,7 @@ import be.dog.d.steven.OracleProgrammingComplete.chapter11.data.Rating;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Comparator;
+import java.util.function.Predicate;
 
 public class Shop {
     public static void main(String[] args) {
@@ -18,7 +19,7 @@ public class Shop {
         pf.reviewProduct(1, Rating.FOUR_STAR, "To lick your fingers");
         pf.reviewProduct(1, Rating.THREE_STAR, "It was oké");
         pf.reviewProduct(1, Rating.FOUR_STAR, "Tasted truly Italian");
-//        pf.printProductReport(1);
+        pf.printProductReport(1);
 
         pf.createProduct(2, "Coffee", BigDecimal.valueOf(2.10));
         pf.reviewProduct(2, Rating.ONE_STAR, "Tasted like water");
@@ -63,6 +64,11 @@ public class Shop {
         pf.printProducts(ratingSorter);
         pf.printProducts(priceSorter.reversed());
         pf.printProducts(priceSorter.thenComparing(ratingSorter));
+
+        Predicate<Product> cheap = p -> p.getPrice().compareTo(BigDecimal.valueOf(2)) < 0;
+
+        System.out.println("Filtered (price < 2):");
+        pf.printProducts(cheap, ratingSorter);
 
         // ANONYMOUS INNER CLASS
         System.out.println(new Product(Integer.MAX_VALUE, "Toy", BigDecimal.ZERO, Rating.FIVE_STAR) {
