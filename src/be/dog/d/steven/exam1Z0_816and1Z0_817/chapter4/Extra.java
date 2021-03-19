@@ -1,14 +1,11 @@
 package be.dog.d.steven.exam1Z0_816and1Z0_817.chapter4;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.*;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 public class Extra {
     public static final List<String> MONKEYS = List.of("Baboon", "Gorilla", "Tamarin", "Marmoset", "Capuchin", "Orangutan", "Macaque", "Gibbon", "Mandrill", "Chimpanzee", "Hamadryad");
@@ -69,6 +66,7 @@ public class Extra {
                 .sorted()
                 .skip(7)
                 .forEach(s -> System.out.println(s.toUpperCase()));
+
         MONKEYS.stream()
                 .takeWhile(s -> !s.startsWith("O"))
                 .dropWhile(s -> !s.startsWith("G"))
@@ -80,8 +78,55 @@ public class Extra {
                 .peek(System.out::print)
                 .map(i -> i * 2)
                 .forEach(System.out::println);
+
+        DoubleSummaryStatistics stats = Product.getListOfProducts()
+                .stream().collect(Collectors.summarizingDouble(p -> p.getPrice().doubleValue()));
+        System.out.println("max: " + stats.getMax());
+        System.out.println("average: " + stats.getAverage());
+        System.out.println("min: " + stats.getMin());
+
+        String joined = Product.getListOfProducts().stream()
+                .collect(Collectors.mapping(p -> p.getName(), Collectors.joining(", ")));
+        System.out.println(joined);
+
+        List<Product> cheap = Product.getListOfProducts().stream()
+                .filter(p -> p.getPrice().compareTo(BigDecimal.valueOf(1.50)) < 0)
+                .collect(Collectors.toList());
+        System.out.println(cheap);
+
+        NumberFormat myFormat = NumberFormat.getCurrencyInstance(Locale.UK);
+        String price = Product.getListOfProducts().stream()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.averagingDouble(
+                                p -> p.getPrice().doubleValue()),
+                        n -> myFormat.format(n)
+                        )
+                );
+        System.out.println("average: " + price);
+
+        Map<BigDecimal, Set<Product>> priceCats = Product.getListOfProducts().stream()
+                .collect(Collectors.groupingBy(p -> p.getPrice(),
+                        Collectors.filtering(p -> p.getExpiryDate().isBefore(LocalDate.now().plusDays(4)),
+                                Collectors.toSet())));
+        System.out.println(priceCats);
+
+        MONKEYS.stream()
+                .parallel().sequential()
+                .parallel().sequential()
+                .parallel()
+                .filter(s -> s.startsWith("O"))
+                .forEach(System.out::println);
+
+        Map<String, BigDecimal> priceList = Product.getListOfProducts().stream()
+                .parallel()
+                .collect(Collectors.toConcurrentMap(
+                        p -> p.getName(),
+                        p -> p.getPrice())
+                );
+        System.out.println(priceList);
     }
 }
+
 
 class Product {
     private final int id;
