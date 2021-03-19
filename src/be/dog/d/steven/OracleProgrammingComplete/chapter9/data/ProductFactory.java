@@ -49,7 +49,7 @@ public class ProductFactory {
 
     public Product reviewProduct(Product product, Rating rating, String comment) {
         List<Review> reviews = products.get(product);
-//        products.remove(product, reviews);
+        products.remove(product, reviews);
         reviews.add(new Review(rating, comment));
         int sum = 0;
         for (Review review : reviews) {

@@ -63,6 +63,7 @@ public class ProductFactory {
 
     public Product reviewProduct(Product product, Rating rating, String comment) {
         List<Review> reviews = products.get(product);
+        products.remove(product, reviews);
         reviews.add(new Review(rating, comment));
         int sum = 0;
         for (Review review : reviews) {
@@ -108,6 +109,17 @@ public class ProductFactory {
             }
         }
         return result;
+    }
+
+    public void printProducts(Comparator<Product> sorter){
+        List<Product> productList = new ArrayList<>(products.keySet());
+        productList.sort(sorter);
+        StringBuilder txt = new StringBuilder();
+        for (Product p: productList) {
+            txt.append(formatter.formatProduct(p));
+            txt.append("\r\n");
+        }
+        System.out.println(txt);
     }
 
     private static class ResourceFormatter {
