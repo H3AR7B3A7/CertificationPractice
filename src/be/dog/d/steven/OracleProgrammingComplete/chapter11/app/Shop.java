@@ -35,7 +35,7 @@ public class Shop {
         pf.reviewProduct(3, Rating.THREE_STAR, "It was oké");
 //        pf.printProductReport(3);
 
-        pf.createProduct(4, "Cake", BigDecimal.valueOf(3.50), LocalDate.now().plusDays(2));
+        pf.createProduct(4, "Cake", BigDecimal.valueOf(3.50), LocalDate.now());
         pf.reviewProduct(4, Rating.FIVE_STAR, "Perfect");
         pf.reviewProduct(4, Rating.FOUR_STAR, "To lick your fingers");
         pf.reviewProduct(4, Rating.THREE_STAR, "It was oké");
@@ -50,7 +50,7 @@ public class Shop {
         p5 = pf.reviewProduct(p5, Rating.THREE_STAR, "It was oké");
 //        pf.printProductReport(p5);
 
-        pf.createProduct(6, "Biscuit", BigDecimal.valueOf(1.50), LocalDate.now().plusDays(2));
+        pf.createProduct(6, "Biscuit", BigDecimal.valueOf(1.50), LocalDate.now());
 //        pf.printProductReport(6);
 
         pf.changeLocale("en-GB");
@@ -69,6 +69,8 @@ public class Shop {
 
         System.out.println("Filtered (price < 2):");
         pf.printProducts(cheap, ratingSorter);
+
+        pf.getDiscounts().forEach((rating, discount) -> System.out.println(rating + "\t" + discount));
 
         // ANONYMOUS INNER CLASS
         System.out.println(new Product(Integer.MAX_VALUE, "Toy", BigDecimal.ZERO, Rating.FIVE_STAR) {

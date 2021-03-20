@@ -129,6 +129,19 @@ public class ProductFactory {
         System.out.println(txt);
     }
 
+    public Map<String, String> getDiscounts() {
+        return products.keySet().stream()
+                .collect(Collectors.groupingBy(
+                        p -> p.getRating().getStars(),
+                        Collectors.collectingAndThen(
+                                Collectors.summingDouble(
+                                        p -> p.getDiscount().doubleValue()
+                                ),
+                                discount -> formatter.moneyFormat.format(discount)
+                        )
+                ));
+    }
+
     private static class ResourceFormatter {
         private final ResourceBundle resources;
         private final DateTimeFormatter dateFormat;
@@ -145,7 +158,7 @@ public class ProductFactory {
                     product.getName(),
                     moneyFormat.format(product.getPrice()),
                     product.getRating().getStars(),
-                    (product instanceof Food) ? dateFormat.format(((Food) product).getBestBefore()) : "");
+                    (product instanceof Food) ? dateFormat.format(((Food) product).getBestBefore()) : "None");
         }
 
         private String formatReview(Review review) {
