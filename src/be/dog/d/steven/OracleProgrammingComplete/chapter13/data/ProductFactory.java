@@ -1,4 +1,4 @@
-package be.dog.d.steven.OracleProgrammingComplete.chapter12.data;
+package be.dog.d.steven.OracleProgrammingComplete.chapter13.data;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -18,7 +18,7 @@ public class ProductFactory {
     private final Map<Product, List<Review>> products = new HashMap<>();
     private ResourceFormatter formatter;
 
-    private final ResourceBundle config = ResourceBundle.getBundle("be/dog/d/steven/OracleProgrammingComplete/chapter12/data/config");
+    private final ResourceBundle config = ResourceBundle.getBundle("be/dog/d/steven/OracleProgrammingComplete/chapter13/data/config");
     private final MessageFormat reviewFormat = new MessageFormat(config.getString("review.data.format"));
     private final MessageFormat productFormat = new MessageFormat(config.getString("product.data.format"));
 
@@ -198,7 +198,7 @@ public class ProductFactory {
         private final NumberFormat moneyFormat;
 
         public ResourceFormatter(Locale locale) {
-            resources = ResourceBundle.getBundle("be/dog/d/steven/OracleProgrammingComplete/chapter12/data/resources", locale);
+            resources = ResourceBundle.getBundle("be/dog/d/steven/OracleProgrammingComplete/chapter13/data/resources", locale);
             dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).localizedBy(locale);
             moneyFormat = NumberFormat.getCurrencyInstance(locale);
         }
