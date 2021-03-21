@@ -1,6 +1,10 @@
 package be.dog.d.steven.exam1Z0_816and1Z0_817.chapter9;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
@@ -14,9 +18,10 @@ public class Extra {
 
     private static final Path PATH1 = Path.of("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter9/extra");
     private static final Path PATH2 = Path.of("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter9/zip");
+    private static final Path PATH3 = Path.of("src/be/dog/d/steven/exam1Z0_816and1Z0_817/chapter9/docs");
     private static final Logger LOGGER = Logger.getLogger(Extra.class.getName());
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         // DELETE NESTED FILE STRUCTURE
         createFileStructure(PATH1);
         Files.walk(PATH1)
@@ -67,6 +72,14 @@ public class Extra {
 //        } catch (IOException e) {
 //            LOGGER.log(Level.SEVERE, "Error creating archive", e);
 //        }
+
+        // ACCESSING HTTP RESOURCES
+        Files.createDirectories(PATH3);
+        URI uri = URI.create("http://openjdk.java.net");
+        HttpRequest req = HttpRequest.newBuilder(uri).GET().build();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpResponse<Path> res = client.send(req, HttpResponse.BodyHandlers.ofFile(PATH3.resolve("index.html")));
+        System.out.println(res);
     }
 
     private static void createFileStructure(Path path) throws IOException {
