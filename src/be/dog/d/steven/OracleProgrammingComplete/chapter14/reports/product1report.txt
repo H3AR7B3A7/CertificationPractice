@@ -1,5 +1,0 @@
-Pizza, Price: £8.50, Rating: ★★★★☆, Expiry Date: 22/03/2021
-Review: ★★★★★	Perfect
-Review: ★★★★☆	To lick your fingers
-Review: ★★★★☆	Tasted truly Italian
-Review: ★★★☆☆	It was oké
