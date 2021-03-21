@@ -1,0 +1,4 @@
+Tea, Price: £1.80, Rating: ★★☆☆☆, Expiry Date: None
+Review: ★★★☆☆	It was oké
+Review: ★☆☆☆☆	Tasted like dish water
+Review: ★☆☆☆☆	Is this tea? I ordered coffee

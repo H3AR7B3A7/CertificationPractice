@@ -1,0 +1,5 @@
+Cake, Price: £3.50, Rating: ★★★★☆, Expiry Date: 20/03/2021
+Review: ★★★★★	Perfect
+Review: ★★★★★	Best cake ever
+Review: ★★★★☆	To lick your fingers
+Review: ★★★☆☆	It was oké
