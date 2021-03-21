@@ -1,6 +1,8 @@
 package be.dog.d.steven.OracleProgrammingComplete.chapter13.data;
 
-public class Review implements Comparable<Review> {
+import java.io.Serializable;
+
+public class Review implements Comparable<Review>, Serializable {
     private final Rating rating;
     private final String comment;
 
