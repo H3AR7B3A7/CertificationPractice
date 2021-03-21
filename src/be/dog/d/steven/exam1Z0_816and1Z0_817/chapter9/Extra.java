@@ -57,7 +57,6 @@ public class Extra {
 //
 //        try (FileSystem fs = FileSystems.newFileSystem(PATH2.resolve("zipped.zip"))){
 //            Files.walk(PATH1).forEach(p -> {
-//                System.out.println(PATH1.relativize(p).toString());
 //                try {
 //                    Path target = fs.getPath(PATH1.relativize(p).toString());
 //                    Files.copy(p,target);
