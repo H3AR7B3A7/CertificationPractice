@@ -175,7 +175,7 @@ public class ProductFactory {
                 }
             }
         } catch (ParseException | NumberFormatException | DateTimeException e) {
-            LOGGER.log(Level.WARNING, "Error parsing review: " + text + " " + e.getMessage());
+            LOGGER.log(Level.WARNING, "Error parsing product: " + text + " " + e.getMessage());
         }
     }
 

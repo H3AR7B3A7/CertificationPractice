@@ -1,0 +1,4 @@
+Coffee, Price: £2.10, Rating: ☆☆☆☆☆, Expiry Date: None
+Review: ★★★☆☆	It was oké
+Review: ★★☆☆☆	Is this coffee? I ordered tea
+Review: ★☆☆☆☆	Tasted like water
