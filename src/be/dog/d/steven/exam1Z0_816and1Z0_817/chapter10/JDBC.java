@@ -213,6 +213,25 @@ class CallableStatementExamples {
             cs.execute();
             System.out.println(cs.getInt("num"));
         }
+
+        // DATABASE AND RESULT SET METADATA
+        try (var conn = DriverManager.getConnection(url);
+             var cs = conn.prepareCall(SQL2)){
+            cs.setString("prefix", "Z");
+            DatabaseMetaData dbMeta = conn.getMetaData();
+            System.out.println(dbMeta.getDatabaseProductName());
+            System.out.println(dbMeta.getDriverName());
+            // Lots of functions to get metadata
+            try (var rs = cs.executeQuery()){
+                ResultSetMetaData meta = rs.getMetaData();
+                System.out.println(meta.getColumnCount());
+                System.out.println(meta.getColumnLabel(1));
+                // Lots of functions to get metadata
+                while (rs.next()){
+                    System.out.println(rs.getString(3));
+                }
+            }
+        }
     }
 }
 
